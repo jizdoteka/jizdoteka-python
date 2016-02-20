@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.db import models
 from django.conf import settings
 from django.db.models import signals
-#from django.contrib.gis.db import models as gis_models
 from django.contrib.auth.models import User
 
 
@@ -35,9 +34,12 @@ signals.post_save.connect(create_user_profile, User)
 # Create your models here.
 class Waypoint(models.Model):
     city = models.CharField(max_length=100)
+    #distinct = models.CharField(max_length=100,
+    #                            help_text=_('Okres'),
+    #                            blank=True,
+    #                            null=True)
     lat = models.FloatField(verbose_name=_('Lattitude'), default=0)
     long = models.FloatField(verbose_name=_('Longtitude'), default=0)
-    #coord = gis_models.PointField(geography=True)
 
     def __str__(self):
         return self.city
@@ -64,16 +66,6 @@ class Comment(models.Model):
 
 
 class Journey(models.Model):
-    # city_from = models.ForeignKey(
-    #     Waypoint,
-    #     on_delete=models.CASCADE,
-    #     related_name='wpt_from'
-    # )
-    # city_to = models.ForeignKey(
-    #     Waypoint,
-    #     on_delete=models.CASCADE,
-    #     related_name='wpt_to'
-    # )
     CZK = 'CZK'
     EUR = 'EUR'
 
@@ -82,23 +74,23 @@ class Journey(models.Model):
         (EUR, 'Eur'),
     )
 
-    price = models.FloatField(
+    seats = models.IntegerField(
         default=0,
-        help_text=_('Price for whole journey from beginning to end.')
+        verbose_name=_('Amount of available seats for this journey')
     )
     date = models.DateTimeField(
         default=timezone.now,
-        verbose_name='Date/time of start of journey'
+        verbose_name=_('Date/time of start of journey')
     )
     approx = models.BooleanField(
         default='',
-        verbose_name='Driver is not sure about exact time of departure'
+        verbose_name=_('Driver is not sure about exact time of departure')
     )
     approx_note = models.CharField(
         max_length=100,
         blank=True,
-        verbose_name=('If approx is applied, this can be used for short note '
-                      'to departure'))
+        verbose_name=_('If approx is applied, this can be used for short note '
+                       'to departure'))
     waypoints = models.ManyToManyField(Waypoint, through='JourneyWaypoints')
     currency = models.CharField(
         max_length=3,
@@ -166,6 +158,8 @@ class JourneyWaypoints(models.Model):
     def __str__(self):
         return '%s [#%s]: %s' % (self.journey, self.order, self.waypoint)
 
+    def free_seats(self):
+        return self.journey.seats - self.passangers.filter(state__exact=Passanger.SUBSCRIBED).count()
 
 
 class Passanger(models.Model):

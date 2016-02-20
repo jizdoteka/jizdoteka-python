@@ -5,13 +5,21 @@ register = template.Library()
 
 @register.filter
 def first_city(queryset):
-    return queryset.order_by('order')[0].waypoint.city
+    return queryset.order_by('order')[0].waypoint
+
+
+@register.filter
+def first_city_id(queryset):
+    return queryset.order_by('order')[0].waypoint.id
 
 
 @register.filter
 def last_city(queryset):
-    return queryset.order_by('-order')[0].waypoint.city
+    return queryset.order_by('-order')[0].waypoint
 
+@register.filter
+def last_city_id(queryset):
+    return queryset.order_by('-order')[0].waypoint.id
 
 @register.filter
 def sort_wpts(queryset):
@@ -25,6 +33,27 @@ def pretty_name(queryset):
         queryset.last_name,
         queryset.username
     )
+
+@register.simple_tag
+def count_free_seats(journey, wpt_from, wpt_to):
+    free_seats = []
+    inside = False
+    for wpt in journey.journeywaypoints_set.order_by('order'):
+        if wpt.waypoint.id == wpt_from.id:
+            inside = True
+        if wpt.waypoint.id == wpt_to.id:
+            inside = False
+        if inside:
+            seats = wpt.free_seats()
+            if seats == 0:
+                return seats
+            free_seats.append(seats)
+    return min(free_seats)
+
+
+@register.filter
+def num_free_seats(wpt, city_from, city_to):
+    return wpt.free_seats(city_from, city_to)
 
 
 @register.filter

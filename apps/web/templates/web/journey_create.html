@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% load journey_tags %}
+
+{% block content %}
+
+<form id="forms">
+    <a href="#" id="add-another">add another</a>
+    <ul id="waypoints">
+    </ul>
+{{ form.as_p }}
+    <input type="submit" />
+</form>
+
+<script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
+<script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
+<script>
+function waypoint_add(i) {
+    var fields_before, fields_after, place
+    fields_before = $('<li class="ui-state-default">').append(i + 'place: ')
+
+    place = $('<input type="text" class="geocomplete" name="waypoint_" + i + "_place" />')
+    new google.maps.places.Autocomplete(place.get()[0], {types: ['geocode']});
+
+    fields_after  = ', note: <input type="text" name="waypoint_" + i + "_note" />, '
+    fields_after += 'output only: <input type="checkbox" name="waypoint_" + i + "_output_only" />'
+    fields_after += 'price: <input type="number" step=5 size=3 name="waypoint_" + i + "_price" />'
+
+    return fields_before.append(place).append(fields_after)
+}
+
+$(document).ready(function() {
+    var form_count = $("[name=waypoints_count").val();
+    $('#waypoints').sortable({
+        axis: "y"
+    })
+    // get extra form count so we know what index to use for the next item.
+    $("#add-another").click(function() {
+        var element = waypoint_add(form_count)
+        $("#waypoints").append(element);
+
+        // build element and append it to our forms container
+        form_count++;
+        $("[name=waypoints_count]").val(form_count);
+        // increment form count so our view knows to populate
+        // that many fields for validation
+        return false;
+    })
+})
+
+function initAutocomplete() {
+    $(".geocomplete").map(function() {
+        console.debug(this)
+        new google.maps.places.Autocomplete(this, {types: ['geocode']});
+    })
+}
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAen5jtHmdJ5ZW3ZOCoqDVjZLkDlILJ014&signed_in=true&libraries=places&callback=initAutocomplete&language=cs-CZ" async defer></script>
+
+{% endblock %}
