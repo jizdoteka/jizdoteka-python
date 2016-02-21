@@ -1,9 +1,34 @@
+/* Zaklady. Nejdrive zakladni veci, ktere sjednocuji drtivou vetsinu nastaveni. */
+
 body { background: black; padding: 0px; margin: 0 auto; max-width: 1280px; font-family: arial;}
-h1 { margin: 0px; padding: 5px; text-align: right; color: white;}
-h4 { padding: 10px; margin: 0px; text-align: center;}
-p { padding: 4px; margin: 2px;border: 1px solid black; border-radius: 10px;}
-input { width: 100%; text-align: center; box-sizing: border-box; border-radius: 10px; padding: 5px; margin-top: 2px; margin-bottom: 2px; }
 div { background: #4b9320; }
 
-#prechod {background: linear-gradient(#4b9320, #80e400);}
-#stranka {background: #80e400;}
+h1 { margin: 0px; padding: 5px; text-align: right; color: white;}
+h2 { padding: 10px; margin: 0px; text-align: center;}
+h4 { padding: 10px; margin: 0px; text-align: center;}
+
+a  {width: 100%; text-align: center; box-sizing: border-box; border-radius: 10px; padding: 5px; margin-top: 2px; margin-bottom: 2px;}
+p { padding: 4px; margin: 2px;border: 1px solid black; border-radius: 10px;}
+
+input { width: 100%; text-align: center; box-sizing: border-box; border-radius: 10px; padding: 5px; margin-top: 2px; margin-bottom: 2px; }
+select {width: 100%; text-align: center; padding: 5px;}
+textarea {width: 100%; box-sizing: border-box;}
+
+#prechod {background: linear-gradient(#4b9320, #71c900)}
+#stranka {background: #71c900;}
+#vyber_barvy { height: 64px;}
+
+/* Nastaveni pro tlacitko typu submit */
+#login_tlacitko {width: 100%; box-sizing: border-box; background-color: #094100; color: white; border: 2px solid black;}
+#login_tlacitko:hover {background-color: #1f9900; border: 2px solid white;}
+/* Chceme sjednotit tlacitko typu a a submit? */
+#tlacitko {width: 100%; box-sizing: border-box; background-color: #094100; color: white; border: 2px solid black; display: block;}
+#tlacitko:hover {background-color: #1f9900; border: 2px solid white;}
+
+/* Nastaveni k dialogu ceny */
+#cena_spolujizdy {width: 49%; box-sizing: border-box;}
+#cena_spolujizdy_sel {width: 49%; box-sizing: border-box;}
+
+.poznamka {background: orange; font-size: 20px; text-align: center;}
+.informace {background: #4e7fff; font-size: 20px; text-align: center;}
+.vlas_voz { width: 20px;}

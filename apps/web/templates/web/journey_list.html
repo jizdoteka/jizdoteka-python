@@ -5,6 +5,7 @@
 
 {% block content %}
 
+
 <form action="{{ request.path }}" method="post">
     {% csrf_token %}
     {{ form }}
@@ -61,3 +62,31 @@ function initAutocomplete() {
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAen5jtHmdJ5ZW3ZOCoqDVjZLkDlILJ014&signed_in=true&libraries=places&callback=initAutocomplete&language=cs-CZ" async defer></script>
 
 {% endblock %}
+=======
+<div id="prechod"><h4>Vypsané spolujízdy</h4></div>
+<div id="stranka">
+
+  {% for journey in journey_list  %}
+  <div class="seznam_jizd">
+    <p class="nadpis_hod">
+      {{ _('Počátek:') }}<br />
+      {{ _('Cíl:') }}<br />
+      {{ _('Datum:') }}<br />
+      {{ _('Řidič:') }}<br />
+      {{ _('Cena:') }}
+    </p>
+  </div>
+  <div class="seznam_jizd">
+    <p class="text_hod">
+      {{ journey.journeywaypoints_set|first_city}}<br />
+      {{ journey.journeywaypoints_set|last_city }}<br />
+      {{ journey.date }}<br />
+      {{ journey.driver.first_name }} {{ journey.driver.last_name }}<br />
+      {{ journey.price }}
+    </p>
+  </div>
+  <a class="tlacitko" href="#">Přihlásit se na spolujízdu</a>
+
+  {% endfor %}
+
+</div>

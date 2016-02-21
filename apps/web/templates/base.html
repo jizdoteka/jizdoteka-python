@@ -9,8 +9,11 @@
   <link rel="icon" type="image/png" href="{% static 'web/jizdoteka.svg' %}" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="{% static 'web/css/styles.css' %}">
   <link type="text/css" rel="stylesheet" href="{% static 'web/jquery-ui-1.11.4/jquery-ui.css' %}">
-    <script type="text/javascript" src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
+
+  {% block extrahead %}{% endblock %}
 </head>
 <body>
   <div id="hlavicka"><h1>Jizdoteka.cz</h1></div>
