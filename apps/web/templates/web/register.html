@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div id="prechod"><h4>Registrace</h4></div>
+<div id="stranka">
+  <form class="" action="{% url 'register' %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="uziv_vstup" value="Registrovat se" class="tlacitko">
+    <p class="informace">
+      Po přihlášení můžete svůj účet na Jízdotéce propojit s Vaším účtem na Facebooku pro snadnější a rychlejší přihlašování.
+    </p>
+  </form>
+</div>
+
+{% endblock %}

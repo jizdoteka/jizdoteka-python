@@ -1,20 +1,20 @@
 {% load i18n %}
 {% load static from staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="{% static 'web/css/styles.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'web/jquery-ui-1.11.4/jquery-ui.css' %}">
+  <title>Jizdoteka</title>
+
+  <link rel="icon" type="image/png" href="{% static 'web/jizdoteka.svg' %}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="{% static 'web/jquery-ui-1.11.4/jquery-ui.css' %}">
     <script type="text/javascript" src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
-    {% block extrahead %}{% endblock %}
 </head>
 <body>
-
-{% block content %}Here is missing {block}!{% endblock %}
-
-
-
-</body>
+  <div id="hlavicka"><h1>Jizdoteka.cz</h1></div>
+    {% block content %}
+    {% endblock %}
+  </body>
 </html>

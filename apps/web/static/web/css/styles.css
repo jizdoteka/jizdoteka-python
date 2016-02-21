@@ -1,6 +1,45 @@
-table td, table th {
-    border: 1px solid black;
-}
-table th {
-    background-color: #ccc;
-}
+/* Zaklady. Nejdrive zakladni veci, ktere sjednocuji drtivou vetsinu nastaveni. */
+
+body { background: black; padding: 0px; margin: 0 auto; max-width: 1280px; font-family: arial;}
+
+h1 { margin: 0px; padding: 5px; text-align: right; color: white;}
+h2 { padding: 10px; margin: 0px; text-align: center;}
+h4 { padding: 10px; margin: 0px; text-align: center;}
+
+a  {text-align: center; padding: 10px; border: 2px solid black; border-radius: 10px; text-decoration: none; display: inline-block; width: 50%; box-sizing: border-box; margin: -1px}
+p { padding: 4px; margin: 0px;border: 1px solid black; border-radius: 10px;}
+label {text-align: center;}
+
+input { width: 100%; text-align: center; box-sizing: border-box; border-radius: 10px; padding: 5px; margin-top: 2px; margin-bottom: 2px; }
+select {width: 100%; text-align: center; padding: 5px;}
+textarea {width: 100%; box-sizing: border-box;}
+
+/* Spolecne pro div a vzhled zakladu */
+#hlavicka { background: #4b9320; }
+#prechod {background: linear-gradient(#4b9320, #71c900)}
+#stranka {background: #71c900;}
+#vyber_barvy { height: 64px;}
+
+/* Nastaveni k dialogu ceny */
+#cena_spolujizdy {width: 49%; box-sizing: border-box;}
+#cena_spolujizdy_sel {width: 49%; box-sizing: border-box;}
+
+/* Nastaveni pro chybu */
+#chyba {text-align: center ; background: red; font-size: 20px;}
+
+/* Nastaveni pro tlacitko typu submit */
+.tlacitko {width: 100%; box-sizing: border-box; background-color: #094100; color: white;}
+.tlacitko:hover {background-color: #1f9900; border: 2px solid white;}
+/* Chceme sjednotit tlacitko typu a a submit? */
+.tlacitko {width: 100%; background-color: #094100; color: white; border: 2px solid black;}
+.tlacitko:hover {background-color: #1f9900; border: 2px solid white;}
+
+.poznamka {background: orange; font-size: 20px; text-align: center;}
+.informace {background: #4e7fff; font-size: 20px; text-align: center;}
+.vlas_voz { width: 20px;}
+.pulsegment { width: 50%; float: left; background: #71c900;}
+.nadpis_hod {font-size: 20px;}
+.text_hod { font-size: 20px;}
+
+.vyber_spolujizdy {width: 100%; text-align: center; background: #03a200; color: white; border: 1px solid black; border-radius: 15px;  display: block;}
+.vyber_spolujizdy:hover { background: #b6ff6c; color: black;}

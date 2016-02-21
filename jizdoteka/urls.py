@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from apps.web.views import journey
 
@@ -26,4 +26,17 @@ urlpatterns = [
         journey.JourneyDetail.as_view(),
         name='journey_detail'
     ),
+
+    ## Nutne pro prihlaseni
+    url(r'^login_screen/$', views.LoginScreen.as_view(), name = "login_screen"),
+    url(r'^logout_user/$', views.logout_user, name = "logout_user"),
+    url(r'^register/$', views.RegisterScreen.as_view(), name = "register"),
+
+    #url(r'^user_mgmt/$', views.user_mgmt, name = "user_mgmt"),
+
+
+    #url(r'^(?P<pk>[0-9]+)$', views.JourneyDetail.as_view(), name='journey_detail'),
+
+    ## Login pro facebook
+    #url(r'accounts/', include('allauth.urls'))
 ]

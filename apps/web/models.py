@@ -8,6 +8,32 @@ from django.db.models import signals
 from django.contrib.auth.models import User
 
 
+class Vehicle(models.Model):
+    name = models.CharField(max_length=20, blank=False)
+    owner = models.IntegerField(blank=False, default = None)
+    register = models.CharField(max_length=20, blank = True, default = None)
+    color = models.CharField(max_length=10, blank=False)
+
+    wifi_on_board = models.BooleanField(default=False)
+    animals_allowed = models.BooleanField(default=False)
+    highway_mark = models.BooleanField(default=False)
+    smoking_allowed = models.BooleanField(default=False)
+    air_conditioning = models.BooleanField(default=True)
+
+    def __str__(self):
+        ret_str = "Vehicle basic attrs:\n\
+                name: %s, register: %s, \
+                color: %s\, owner_id: %s, \
+                wifi_on_board: %s, animals_allowed: %s, \
+                highway_mark: %s\nsmoking_allowed: %s, \
+                air_conditioning: %s" % (self.name, self.register,
+                                         self.color, self.owner.id,
+                                         self.wifi_on_board, self.animals_allowed,
+                                         self.highway_mark,self.smoking_allowed,
+                                         self.air_conditioning)
+        return ret_str
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,

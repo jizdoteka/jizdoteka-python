@@ -6,6 +6,7 @@ from . import models
 admin.site.register(models.Comment)
 admin.site.register(models.Waypoint)
 admin.site.register(models.Passanger)
+admin.site.register(models.Vehicle)
 admin.site.register(models.JourneyWaypoints)
 
 

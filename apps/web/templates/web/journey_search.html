@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% load journey_tags %}
+
+{% block content %}
+
+<div id="prechod"><h4>Vyhledávání spolujízd<br />--trasa_z-- - --trasa_do--</h4></div>
+<div id="stranka">
+  <form action="journey_search.html" method="post">
+    <input type="text" name="odkud" placeholder="Odkud">
+    <input type="text" name="kam" placeholder="Kam">
+    <input id="tlacitko" type="button" name="vyhledat" value="Hledat">
+
+  </form>
+</div>
+{% endblock %}
