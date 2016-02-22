@@ -21,7 +21,7 @@ class UserProfile(models.Model):
     driven_km = models.IntegerField(blank=True, default=0)
     drive_years = models.IntegerField(blank=True, default=0)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
 
@@ -39,7 +39,7 @@ class Waypoint(models.Model):
     long = models.FloatField(verbose_name=_('Longtitude'), default=0)
     #coord = gis_models.PointField(geography=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.city
 
 
@@ -59,7 +59,7 @@ class Comment(models.Model):
     date = models.DateTimeField()
     message = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s: %s' % (self.author, self.message[:50])
 
 
@@ -111,7 +111,7 @@ class Journey(models.Model):
     )
     comments = models.ManyToManyField(Comment, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         label = self.journeywaypoints_set.order_by('order')
         return '%s -> %s [%s]' % (
             label.first().waypoint.city,
@@ -163,7 +163,7 @@ class JourneyWaypoints(models.Model):
     class Meta:
         unique_together = (('journey', 'order'),)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s [#%s]: %s' % (self.journey, self.order, self.waypoint)
 
 
@@ -187,5 +187,5 @@ class Passanger(models.Model):
         default=SUBSCRIBED
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return str(self.user) + ' (' + str(self.journey) + ')'
