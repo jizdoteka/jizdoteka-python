@@ -1,4 +1,4 @@
-rom django.shortcuts import render
+from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView
 from django.views.generic.edit import FormView
 from . import models
@@ -158,3 +158,16 @@ class JourneyDetail(DetailView):
 
         return context
 
+
+class UserDetail(DetailView):
+    model = models.User
+
+
+class JourneyCreate(FormView):
+    form_class = forms.Journey
+    template_name = 'web/journey_create.html'
+
+    def form_valid(self, form):
+        pprint(form)
+        pprint(dir(form))
+        #super(JourneyCreate, self).form_valid(form)
