@@ -4,9 +4,9 @@
 
 ## Instalace
 
-Pro účely vývoje/testování doporučuji použít `virtualenv` (pip install virtualenv)
+Pro účely vývoje/testování doporučuji použít `virtualenv` (pip3 install virtualenv)
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Spuštění serveru: `./manage.py runserver`
