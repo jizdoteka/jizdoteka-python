@@ -42,8 +42,6 @@ class JourneyList(ListView, FormView):
 
         context['form_search_journey'] = forms.SearchJourney()
         context['filter'] = self.filter
-        context['filter_from'] = self.filter['city_from']
-        context['filter_to'] = self.filter['city_to']
 
         return context
 
@@ -79,14 +77,13 @@ class JourneyList(ListView, FormView):
         return qs.get()
 
     def form_valid(self, form):
-        city_from = self.__city_to_waypoint_model(form.data['city_from']).id
-        city_to = self.__city_to_waypoint_model(form.data['city_to']).id
+        city_from = self.__city_to_waypoint_model(form.data['city_from'])
+        city_to = self.__city_to_waypoint_model(form.data['city_to'])
         self.filter['city_from'] = city_from
         self.filter['city_to'] = city_to
         return super(JourneyList, self).form_valid(form)
 
     def get_queryset(self):
-        # queryset = super(JourneyList, self).get_queryset()
         # TODO: add other restrictions such as date
         qs = models.Journey.objects.raw('''
             SELECT
@@ -100,7 +97,7 @@ class JourneyList(ListView, FormView):
                 "wpt_to"."waypoint_id" = '{}'
                 AND
                 "wpt_from"."order" < "wpt_to"."order"
-        '''.format(self.filter['city_from'], self.filter['city_to'])
+        '''.format(self.filter['city_from'].id, self.filter['city_to'].id)
         )
 
         #print queryset.filter(
@@ -166,8 +163,3 @@ class UserDetail(DetailView):
 class JourneyCreate(FormView):
     form_class = forms.Journey
     template_name = 'web/journey_create.html'
-
-    def form_valid(self, form):
-        pprint(form)
-        pprint(dir(form))
-        #super(JourneyCreate, self).form_valid(form)
