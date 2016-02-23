@@ -22,8 +22,8 @@ class JourneyList(ListView, FormView):
     form_class = forms.SearchJourney
     success_url = '/'   # TODO: replace by generic URL of this page
     filter = {
-        'city_from': models.Waypoint.objects.filter(pk=4).get(),
-        'city_to': models.Waypoint.objects.filter(pk=1).get(),
+        'city_from': models.Waypoint.objects.filter(pk=3).get(),
+        'city_to': models.Waypoint.objects.filter(pk=2).get(),
     }
 
     GMAPS_CITY_COMPONENT = 'locality'
