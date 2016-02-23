@@ -79,13 +79,13 @@ def expr(parser, token):
     try:
         tag_name, arg = token.contents.split(None, 1)
     except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires arguments" % token.contents[0]
+        raise template.TemplateSyntaxError("%r tag requires arguments") % token.contents[0]
     m = r_expr.search(arg)
     if m:
         expr_string, var_name = m.groups()
     else:
         if not arg:
-            raise template.TemplateSyntaxError, "%r tag at least require one argument" % tag_name
+            raise template.TemplateSyntaxError("%r tag at least require one argument") % tag_name
 
         expr_string, var_name = arg, None
     return ExprNode(expr_string, var_name)

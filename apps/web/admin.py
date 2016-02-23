@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-import models
+from . import models
 
 # Register your models here.
 admin.site.register(models.Comment)
