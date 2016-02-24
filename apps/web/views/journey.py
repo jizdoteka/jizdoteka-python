@@ -162,16 +162,18 @@ class UserDetail(DetailView):
 
 
 class JourneyCreate(FormView):
-    form_class = forms.JourneyFormSet
+    form_class = dj_forms.formset_factory(forms.JourneyFormSet, extra=4, can_order=True, can_delete=True)
     template_name = 'web/journey_create.html'
 
     def post(self, request, *args, **kwargs):
-        pudb.set_trace()
-        places = request.POST.getlist('waypoint__place[]')
+        #pudb.set_trace()
+        #places = request.POST.getlist('waypoint__place[]')
         return super(JourneyCreate, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
-        pudb.set_trace()
-        pprint(dir(form))
-        pprint(form)
+        #pudb.set_trace()
+        ef = form.empty_form
+        v = ef
+        pprint(dir(v))
+        pprint(v)
         return super(JourneyCreate, self).form_valid(form)

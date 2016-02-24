@@ -35,4 +35,8 @@ class Journey(forms.ModelForm):
             self.fields['waypoint_{index}_price[]'.format(index=index)] = \
                 forms.FloatField(required=False)
 
-class JourneyFormSet()
+
+class JourneyFormSet(forms.ModelForm):
+    class Meta:
+        model = models.JourneyWaypoints
+        fields = ['journey', 'waypoint', 'label']

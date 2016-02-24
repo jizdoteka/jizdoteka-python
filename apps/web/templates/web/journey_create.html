@@ -7,12 +7,17 @@
 
 <form id="forms" method="post">
     {% csrf_token %}
+    {{ form.management_form }}
+        {{ form.empty_form }}<hr><hr>
+    {% for item_form in form %}
+        {{ item_form }}<br>
+    <hr>
+    {% endfor %}
+    <input type="submit" />
+</form>
     <a href="#" id="add-another">add another</a>
     <ul id="waypoints">
     </ul>
-{{ form.as_p }}
-    <input type="submit" />
-</form>
 
 <script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
 <script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
