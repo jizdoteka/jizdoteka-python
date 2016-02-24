@@ -5,7 +5,8 @@
 
 {% block content %}
 
-<form id="forms">
+<form id="forms" method="post">
+    {% csrf_token %}
     <a href="#" id="add-another">add another</a>
     <ul id="waypoints">
     </ul>
@@ -18,31 +19,31 @@
 <script>
 function waypoint_add(i) {
     var fields_before, fields_after, place
-    fields_before = $('<li class="ui-state-default">').append(i + 'place: ')
+    fields_before = $('<li class="ui-state-default">').append('#place: ')
 
-    place = $('<input type="text" class="geocomplete" name="waypoint_" + i + "_place[]" />')
+    place = $('<input type="text" class="geocomplete" name="waypoint__place[]" />')
     new google.maps.places.Autocomplete(place.get()[0], {types: ['geocode']});
 
-    fields_after  = ', note: <input type="text" name="waypoint_" + i + "_note[]" />, '
-    fields_after += 'output only: <input type="checkbox" name="waypoint_" + i + "_output_only[]" />'
-    fields_after += 'price: <input type="number" step=5 size=3 name="waypoint_" + i + "_price[]" />'
+    fields_after  = ', note: <input type="text" name="waypoint__note[]" />, '
+    fields_after += 'output only: <input type="checkbox" name="waypoint__output_only[]" />'
+    fields_after += 'price: <input type="number" step=5 size=3 name="waypoint__price[]" />'
 
     return fields_before.append(place).append(fields_after)
 }
 
 $(document).ready(function() {
-    var form_count = $("[name=waypoints_count").val();
+    //var form_count = $("[name=waypoints_count").val();
     $('#waypoints').sortable({
         axis: "y"
     })
     // get extra form count so we know what index to use for the next item.
     $("#add-another").click(function() {
+        form_count = '';
         var element = waypoint_add(form_count)
         $("#waypoints").append(element);
 
         // build element and append it to our forms container
-        form_count++;
-        $("[name=waypoints_count]").val(form_count);
+        //$("[name=waypoints_count]").val(form_count);
         // increment form count so our view knows to populate
         // that many fields for validation
         return false;

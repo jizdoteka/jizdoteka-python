@@ -7,6 +7,7 @@ import googlemaps
 from pprint import pprint
 import pudb
 from django.db.models import Q
+from django import forms as dj_forms
 
 
 # Create your views here.
@@ -161,5 +162,16 @@ class UserDetail(DetailView):
 
 
 class JourneyCreate(FormView):
-    form_class = forms.Journey
+    form_class = forms.JourneyFormSet
     template_name = 'web/journey_create.html'
+
+    def post(self, request, *args, **kwargs):
+        pudb.set_trace()
+        places = request.POST.getlist('waypoint__place[]')
+        return super(JourneyCreate, self).post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        pudb.set_trace()
+        pprint(dir(form))
+        pprint(form)
+        return super(JourneyCreate, self).form_valid(form)
