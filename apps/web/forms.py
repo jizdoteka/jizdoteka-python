@@ -50,11 +50,8 @@ class RegisterForm(forms.Form):
         if correct_day_index >= len(day_list):
             correct_day_index = correct_day_index - len(day_list)
 
-        print (len(day_list))
-        print (correct_day_index)
-
-        question = "Dnes je %s. V případě, že je toto tvrzení pravdivé, co bude za %s dny?" % (day_list[rand_day_num], rand_addition)
-        return (question, day_list[correct_day_index])
+        question = "Dnes je %s. V případě, že je toto tvrzení pravdivé, co bude za %s dny?" % (day_list[rand_day_num - 1], rand_addition)
+        return (question, day_list[correct_day_index - 1])
 
     user_email = forms.CharField(max_length = 100, label = "Vaše emailová adresa")
     user_email_confirm = forms.CharField(max_length = 100, label = "Vaše emailová adresa - kontrola")
@@ -64,15 +61,28 @@ class RegisterForm(forms.Form):
     cont_question, correct_day = rand_anti_question()
     random_antibot = forms.CharField(max_length = 50, label = cont_question)
 
+
 class LoginForm(forms.Form):
     user_name = forms.CharField(max_length = 100, label = "Váš email")
     user_pass = forms.CharField(widget = forms.PasswordInput(), label = "Vaše heslo")
+
 
 class ManageForm(forms.Form):
     user_mail = forms.EmailField(max_length = 100, label = "Váš email")
     user_mail_confirm = forms.EmailField(max_length = 100, label = "Váš email - kontrola")
     user_pass = forms.CharField(max_length = 100, widget = forms.PasswordInput(), label = "Vaše heslo")
     user_pass_confirm = forms.EmailField(max_length = 100, widget = forms.PasswordInput(), label = "Vaše heslo - kontrola")
+    user_phone = forms.CharField(max_length = 20, label = "Vaše telefonní číslo")
+
 
 class CarManageForm(forms.Form):
-    pass
+    car_name = forms.CharField(max_length = 20, label = "Značka Vašeho vozidla")
+    car_color = forms.CharField(max_length = 10, label = "Barva Vašeho vozidla")
+
+    car_air_conditioning = forms.BooleanField(label = "Vozidlo je vybaveno klimatizací")
+    car_animals_allowed = forms.BooleanField(label = "Ve vozidle lze převážet zvířata")
+    car_has_wifi = forms.BooleanField(label = "Ve vozidle je síť Wi-Fi")
+    car_has_highway_sign = forms.BooleanField(label = "Vozidlo má dálniční známku")
+    car_smoking_allowed = forms.BooleanField(label = "Ve vozidle se smí kouřit")
+
+    car_register_sign = forms.CharField(max_length = 16, label = "SPZ Vašeho vozidla")

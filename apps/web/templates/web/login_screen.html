@@ -3,7 +3,7 @@
 <div id="prechod"><h4>Přihlášení uživatele</h4></div>
 <div id="stranka">
 
-  <form class="" action="{% url 'login_screen' %}" method="POST">{% csrf_token %}
+  <form action="{% url 'login_screen' %}" method="POST">{% csrf_token %}
     {{ form.as_p}}
     <input type="submit" value="Přihlásit se" class="tlacitko">
     <p class="informace">
