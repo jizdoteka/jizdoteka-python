@@ -5,10 +5,11 @@
   <a href="{% url 'login_screen' %}">Přihlásit se</a>
   <a href="{% url 'logout_user' %}">Odhlásit se</a>
   <a href="{% url 'register' %}">Registrovat se</a>
-  <a href="{% url 'user_mgmt' %}">Uživatelský panel</a>
+
 
 </div>
 <div id="stranka">{{ request.user }}
 </div>
 
 {% endblock content %}
+<a href="{% url 'user_mgmt' %}">Uživatelský panel</a>
