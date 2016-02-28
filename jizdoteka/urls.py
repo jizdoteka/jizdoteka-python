@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^logout_user/$', views.logout_user, name = "logout_user"),
     url(r'^register/$', views.RegisterScreen.as_view(), name = "register"),
 
+    url(r'^car_mgmt/$', views.CarManagement.as_view(), name = "car_mgmt")
+
     #url(r'^user_mgmt/$', views.user_mgmt, name = "user_mgmt"),
     url(r'^accounts/', include('allauth.urls')),
 
