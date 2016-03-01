@@ -28,6 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +42,8 @@ INSTALLED_APPS = [
     # 'django.contrib.gis',
     'debug_toolbar',
     'apps.web',
+    'emailusernames',
+    'colorfield',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -88,6 +92,11 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'emailusernames.backends.EmailAuthBackend',
+    # Uncomment the following to make Django tests pass:
+    # 'django.contrib.auth.backends.ModelBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
