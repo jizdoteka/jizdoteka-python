@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 
 class Vehicle(models.Model):
     name = models.CharField(max_length=20, blank=False)
-    owner = models.IntegerField(blank=False, default = None)
+    owner = models.ForeignKey(User)
     register = models.CharField(max_length=20, blank = True, default = None)
     color = models.CharField(max_length=10, blank=False)
 
@@ -18,7 +18,7 @@ class Vehicle(models.Model):
     animals_allowed = models.BooleanField(default=False)
     highway_mark = models.BooleanField(default=False)
     smoking_allowed = models.BooleanField(default=False)
-    air_conditioning = models.BooleanField(default=True)
+    air_conditioning = models.BooleanField(default=False)
 
     def __str__(self):
         ret_str = "Vehicle basic attrs:\n\
@@ -47,7 +47,7 @@ class UserProfile(models.Model):
     drive_years = models.IntegerField(blank=True, default=0)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
 
 def create_user_profile(sender, instance, created, **kwargs):
