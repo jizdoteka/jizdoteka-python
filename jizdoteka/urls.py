@@ -39,8 +39,12 @@ urlpatterns = [
     url(r'^login_screen/$', views.LoginScreen.as_view(), name = "login_screen"),
     url(r'^logout_user/$', views.logout_user, name = "logout_user"),
     url(r'^register/$', views.RegisterScreen.as_view(), name = "register"),
+    url(r'^user/$', views.UserManagement.as_view(), name = "user"),
 
-    url(r'^car_mgmt/$', views.CarManagement.as_view(), name = "car_mgmt")
+    url(r'^cars/$', views.CarManagement.as_view(), name = "cars"),
+
+    url(r'^journey_create/$', views.JourneyCreate.as_view(), name = "cars"),
+
 
     #url(r'^user_mgmt/$', views.user_mgmt, name = "user_mgmt"),
     url(r'^accounts/', include('allauth.urls')),
