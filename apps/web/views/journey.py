@@ -178,7 +178,7 @@ class CarManagement(View):
     message = None
 
     def get(self, request):
-        self.model = models.Vehicle.objects.filter(owner = request.user)
+        self.model = models.Vehicle.objects.filter(owner=request.user)
         return render(request, 'web/cars.html', {"form": self.form,
                                                  "car_list": self.model,
                                                  "message": self.message,
@@ -217,13 +217,13 @@ class CarManagement(View):
 
     def _check_required(self):
         if self.name and self.color:
-            new_car = models.Vehicle(owner = self.owner, name = self.name,
-                                     color = self.color, register = self.register_sign,
-                                     air_conditioning = self.air_conditioning,
-                                     animals_allowed = self.animals_allowed,
-                                     wifi_on_board = self.has_wifi,
-                                     smoking_allowed = self.smoking_allowed,
-                                     highway_mark = self.has_highway_sign)
+            new_car = models.Vehicle(owner=self.owner, name=self.name,
+                                     color=self.color, register=self.register_sign,
+                                     air_conditioning=self.air_conditioning,
+                                     animals_allowed=self.animals_allowed,
+                                     wifi_on_board=self.has_wifi,
+                                     smoking_allowed=self.smoking_allowed,
+                                     highway_mark=self.has_highway_sign)
             new_car.save()
             return HttpResponseRedirect(".")
         else:
