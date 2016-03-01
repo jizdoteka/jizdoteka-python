@@ -13,6 +13,8 @@ input { width: 100%; text-align: center; box-sizing: border-box; border-radius: 
 select {width: 100%; text-align: center; padding: 5px;}
 textarea {width: 100%; box-sizing: border-box;}
 
+canvas {width: 100%; height: 32px;}
+
 /* Spolecne pro div a vzhled zakladu */
 #hlavicka { background: #4b9320; }
 #prechod {background: linear-gradient(#4b9320, #71c900)}
