@@ -47,7 +47,15 @@ Rozpracováno (částečně funguje):
 
 Chybí, je třeba opravit (hmm.. od čeho začít :)
  * plnění webu day prozatím pouze skrze administraci (viz. link výše)
+
  * front-end, design
  * hodnocení jízd
  * poptávky jízd
  * (a všechno ostatní ...)
+
+ * (skrze administraci) lze přihlásit pasažéra i na trasu mimo jeho jízdu - toto budeme stejně ošetřovat už při vkládání do DB, takže to nakonec tak moc vadit nebude
+ * všechno ostatní ...
+
+## Zavislosti
+ * je potreba rucne doinstalovat emailusernames, pip nefunguje (nevim proc)
+ * https://github.com/harmo/django-email-as-username
