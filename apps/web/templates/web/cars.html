@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="prechod"><h4>{{ header }}</h4></div>
+<div id="stranka">
+  <p class="informace">Logged in as {{ request.user.email }}</p>
+  <form action="{% url 'cars' %}" method="POST">{% csrf_token %}
+    <p><label>Color:</label><input type="color" name="color" value="" id="vyber_barvy"></input></p>
+    {{ form.as_p }}
+    <p class="informace">{{ reg_notice.0 }}:<br />{{ reg_notice.1 }}<p>
+      <input type="hidden" name="method" value="add_vehicle">
+      <input type="submit" value="Add new vehicle" class="tlacitko">
+  </form>
+  <br />
+  <p class="informace">Vehicle list</p>
+  <br />
+
+  {% for inc in car_list  %}
+  <div class="sez_voz">
+    <form action="{% url 'cars' %}" method="POST">{% csrf_token %}
+      <input type="hidden" name="car_id" value="{{ inc.id }}">
+      <input type="hidden" name="method" value="remove_vehicle">
+      <p>Vehicle name / brand: {{ inc.name }}<br />
+        National register sign: {{ inc.register }}<br />
+      Vehicle color: <canvas style="background:{{ inc.color }}; border: 1px solid black;"></canvas></p>
+
+        <input class="tlacitko" type="submit" value="Remove vehicle">
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
