@@ -35,9 +35,6 @@ urlpatterns = [
 
     url(r'^cars/$', views.CarManagement.as_view(), name = "cars"),
 
-    url(r'^journey_create/$', views.JourneyCreate.as_view(), name = "cars"),
-
-
     #url(r'^user_mgmt/$', views.user_mgmt, name = "user_mgmt"),
 
 
