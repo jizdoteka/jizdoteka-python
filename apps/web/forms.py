@@ -1,6 +1,8 @@
 from django import forms
 from . import models
 from random import randint
+from . import models
+from django.utils.translation import ugettext_lazy as _
 
 class SearchJourney(forms.Form):
     city_from = forms.CharField()
@@ -53,36 +55,41 @@ class RegisterForm(forms.Form):
         question = "Dnes je %s. V případě, že je toto tvrzení pravdivé, co bude za %s dny?" % (day_list[rand_day_num - 1], rand_addition)
         return (question, day_list[correct_day_index - 1])
 
-    user_email = forms.CharField(max_length = 100, label = "Vaše emailová adresa")
-    user_email_confirm = forms.CharField(max_length = 100, label = "Vaše emailová adresa - kontrola")
-    user_password = forms.CharField(widget = forms.PasswordInput(), label = "Vaše heslo")
-    user_password_confirm = forms.CharField(widget = forms.PasswordInput(), label = "Vaše heslo - kontrola")
+    user_email = forms.CharField(max_length = 100, label = _("Your E-Mail address"))
+    user_email_confirm = forms.CharField(max_length = 100, label = _("Your E-Mail address - Confirmation"))
+    user_password = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password"))
+    user_password_confirm = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password - Confirmation"))
 
     cont_question, correct_day = rand_anti_question()
     random_antibot = forms.CharField(max_length = 50, label = cont_question)
 
 
 class LoginForm(forms.Form):
-    user_name = forms.CharField(max_length = 100, label = "Váš email")
-    user_pass = forms.CharField(widget = forms.PasswordInput(), label = "Vaše heslo")
+    user_name = forms.EmailField(max_length = 100, label = _("Your email"))
+    user_pass = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password"))
 
 
 class ManageForm(forms.Form):
-    user_mail = forms.EmailField(max_length = 100, label = "Váš email")
-    user_mail_confirm = forms.EmailField(max_length = 100, label = "Váš email - kontrola")
-    user_pass = forms.CharField(max_length = 100, widget = forms.PasswordInput(), label = "Vaše heslo")
-    user_pass_confirm = forms.EmailField(max_length = 100, widget = forms.PasswordInput(), label = "Vaše heslo - kontrola")
-    user_phone = forms.CharField(max_length = 20, label = "Vaše telefonní číslo")
+    user_mail = forms.EmailField(max_length = 100, label = _("Your E-mail address"))
+    user_mail_confirm = forms.EmailField(max_length = 100, label = _("Your E-mail address - Confirmation"))
+    user_pass = forms.CharField(max_length = 100, widget = forms.PasswordInput(), label = _("Your Password"))
+    user_pass_confirm = forms.EmailField(max_length = 100, widget = forms.PasswordInput(), label = _("Your Password - Confirmation"))
+    user_phone = forms.CharField(max_length = 20, label = _("Your phone number"))
 
 
 class CarManageForm(forms.Form):
-    car_name = forms.CharField(max_length = 20, label = "Značka Vašeho vozidla")
-    car_color = forms.CharField(max_length = 10, label = "Barva Vašeho vozidla")
+    car_name = forms.CharField(max_length = 20, label = _("Your car brand"))
+    #color = forms.CharField(max_length = 10, label = _("Your car's color"))
 
-    car_air_conditioning = forms.BooleanField(label = "Vozidlo je vybaveno klimatizací")
-    car_animals_allowed = forms.BooleanField(label = "Ve vozidle lze převážet zvířata")
-    car_has_wifi = forms.BooleanField(label = "Ve vozidle je síť Wi-Fi")
-    car_has_highway_sign = forms.BooleanField(label = "Vozidlo má dálniční známku")
-    car_smoking_allowed = forms.BooleanField(label = "Ve vozidle se smí kouřit")
+    air_conditioning = forms.BooleanField(label = _("Air conditioning in car"))
+    animals_allowed = forms.BooleanField(label = _("Animal transport is allowed"))
+    has_wifi = forms.BooleanField(label = _("Wifi is in car"))
+    has_highway_sign = forms.BooleanField(label = _("Car has a Highway stamp"))
+    smoking_allowed = forms.BooleanField(label = "Smoking allowed in vehicle")
 
-    car_register_sign = forms.CharField(max_length = 16, label = "SPZ Vašeho vozidla")
+    register_sign = forms.CharField(max_length = 16, label = _("Car national register sign"))
+
+
+class CreateJourneyForm(forms.Form):
+
+    pass
