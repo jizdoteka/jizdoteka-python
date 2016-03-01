@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div id="prechod"><h4>Přihlášení uživatele</h4></div>
+<div id="prechod"><h4>{{ header }}</h4></div>
 <div id="stranka">
 
   <form action="{% url 'login_screen' %}" method="POST">{% csrf_token %}
