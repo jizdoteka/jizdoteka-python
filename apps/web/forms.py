@@ -1,4 +1,5 @@
 from django import forms
+<<<<<<< HEAD
 from . import models
 from random import randint
 from . import models
@@ -27,11 +28,16 @@ wpt_new_factory_kwargs = dict(wpt_base_factory_kwargs)
 wpt_update_factory_kwargs = dict(wpt_base_factory_kwargs)
 wpt_new_factory_kwargs['extra'] = 2
 
+
 WaypointNewFormSetFactory = forms.inlineformset_factory(
     **wpt_new_factory_kwargs)
 WaypointUpdateFormSetFactory = forms.inlineformset_factory(
     **wpt_update_factory_kwargs)
 
+    user_email = forms.CharField(max_length = 100, label = _("Your E-Mail address"))
+    user_email_confirm = forms.CharField(max_length = 100, label = _("Your E-Mail address - Confirmation"))
+    user_password = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password"))
+    user_password_confirm = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password - Confirmation"))
 
 class JourneyFormSet(forms.ModelForm):
     class Meta:
