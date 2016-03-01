@@ -2,14 +2,12 @@
 {% block content %}
 <div id="prechod">
 
-  <a href="{% url 'login_screen' %}">Přihlásit se</a>
-  <a href="{% url 'logout_user' %}">Odhlásit se</a>
-  <a href="{% url 'register' %}">Registrovat se</a>
-
+  {% for name, href in links.items %}
+    <a href="{% url href%}">{{ name }}</a>
+  {% endfor %}
 
 </div>
-<div id="stranka">{{ request.user }}
+<div id="stranka">{{ request.user.email }}
 </div>
 
 {% endblock content %}
-<a href="{% url 'user_mgmt' %}">Uživatelský panel</a>
