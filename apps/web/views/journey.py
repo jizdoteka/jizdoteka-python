@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView
+from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView,
 from django.views.generic.edit import FormView
 from . import models
 from . import forms
@@ -161,8 +161,44 @@ class UserDetail(DetailView):
     model = models.User
 
 
+def journey(request, pk=None):
+    WaypointFormSetFactory = dj_forms.inlineformset_factory(
+        models.Journey,
+        models.JourneyWaypoints,
+        fields=('waypoint',),
+        extra=1,
+        can_order=True
+    )
+    JourneyFormFactory = dj_forms.modelform_factory(
+        models.Journey,
+        fields=('seats', 'date', 'approx', 'approx_note', 'currency')
+    )
+
+    jr = models.Journey.objects.get(pk=pk)
+    if request.method == 'POST':
+        #print('odeslano')
+        #pudb.set_trace()
+        form_wpts = WaypointFormSetFactory(request.POST, instance=jr)
+        form_journey = JourneyFormFactory(request.POST, instance=jr)
+        if form_journey.is_valid() and form_wpts.is_valid():
+            #pprint(dir(form_journey.cleaned_data))
+            pprint(form_journey.cleaned_data)
+            pprint(form_wpts.cleaned_data)
+    else:
+        form_wpts = WaypointFormSetFactory(instance=jr)
+        form_journey = JourneyFormFactory(instance=jr)
+
+    return render(
+        request,
+        'web/journey_create2.html',
+        {'form_wpts': form_wpts, 'form_journey': form_journey}
+    )
+
+
 class JourneyCreate(FormView):
-    form_class = dj_forms.formset_factory(forms.JourneyFormSet, extra=4, can_order=True, can_delete=True)
+    #form_class = dj_forms.formset_factory(forms.JourneyFormSet, extra=3, can_order=True, can_delete=True)
+    formset_class = dj_forms.inlineformset_factory(models.Journey, models.JourneyWaypoints, fields=('waypoint',))
+    form_class = formset_class()
     template_name = 'web/journey_create.html'
 
     def post(self, request, *args, **kwargs):

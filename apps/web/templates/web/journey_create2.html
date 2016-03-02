@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% load journey_tags %}
+{% block extrahead %}
+<script type="text/javascript">
+    $(function() {
+        $('#id_orders_table tbody tr').formset({
+            // For inline formsets, be sure to set the prefix, as the default prefix
+            // ('form') isn't correct.
+            // Django appears to generate the prefix from the lowercase plural
+            // name of the related model, with camel-case converted to underscores.
+            prefix: "{{ form.prefix }}"
+        })
+    })
+</script>
+<style type="text/css">
+    .delete-row {
+        margin-left:5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<form id="journey_form" method="post">
+    {% csrf_token %}
+    {{ form_journey.as_p }}<br>
+    {{ form_wpts.as_p }}<br>
+    <input type="submit" />
+</form>
+
+{% endblock %}
