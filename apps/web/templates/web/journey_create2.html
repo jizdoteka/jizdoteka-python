@@ -3,14 +3,15 @@
 {% load static from staticfiles %}
 {% load journey_tags %}
 {% block extrahead %}
+<script type="text/javascript" src="{% static 'web/js/jquery.formset.js' %}"></script>
 <script type="text/javascript">
     $(function() {
-        $('#id_orders_table tbody tr').formset({
+        $('#journey_wpts tbody tr').formset({
             // For inline formsets, be sure to set the prefix, as the default prefix
             // ('form') isn't correct.
             // Django appears to generate the prefix from the lowercase plural
             // name of the related model, with camel-case converted to underscores.
-            prefix: "{{ form.prefix }}"
+            prefix: "{{ form_wpt.prefix }}"
         })
     })
 </script>
@@ -25,8 +26,32 @@
 
 <form id="journey_form" method="post">
     {% csrf_token %}
-    {{ form_journey.as_p }}<br>
-    {{ form_wpts.as_p }}<br>
+    {{ form.as_p }}<br>
+
+
+            <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5">
+                <thead>
+                    <tr>
+                        <th scope="col">wpt</th>
+                        <th scope="col">order (model)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in form_wpt.forms %}
+                    <tr id="{{ form.prefix }}-row">
+                        <td>
+                            {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
+                            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                            {{ form.waypoint }}
+                        </td>
+                        <td>{{ form.order }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+    {{ form_wpt.management_form }}
+
     <input type="submit" />
 </form>
 

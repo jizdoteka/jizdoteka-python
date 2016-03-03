@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView,
+from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView
 from django.views.generic.edit import FormView
 from . import models
 from . import forms
@@ -195,21 +195,63 @@ def journey(request, pk=None):
     )
 
 
-class JourneyCreate(FormView):
-    #form_class = dj_forms.formset_factory(forms.JourneyFormSet, extra=3, can_order=True, can_delete=True)
-    formset_class = dj_forms.inlineformset_factory(models.Journey, models.JourneyWaypoints, fields=('waypoint',))
-    form_class = formset_class()
-    template_name = 'web/journey_create.html'
+class JourneyCreate(CreateView):
+    template_name = 'web/journey_create2.html'
+    model = models.Journey
+    form_class = forms.Journey
+    success_url = 'success/'
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles GET requests and instantiates blank versions of the form
+        and its inline formsets.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        form_wpt = forms.WaypointFormSetFactory()
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  form_wpt=form_wpt,
+                                  ))
 
     def post(self, request, *args, **kwargs):
-        #pudb.set_trace()
-        #places = request.POST.getlist('waypoint__place[]')
-        return super(JourneyCreate, self).post(request, *args, **kwargs)
+        """
+        Handles POST requests, instantiating a form instance and its inline
+        formsets with the passed POST variables and then checking them for
+        validity.
+        """
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        form_wpt = forms.WaypointFormSetFactory(self.request.POST)
+        if form.is_valid() and form_wpt.is_valid():
+            return self.form_valid(form, form_wpt)
+        else:
+            return self.form_invalid(form, form_wpt)
 
-    def form_valid(self, form):
-        #pudb.set_trace()
-        ef = form.empty_form
-        v = ef
-        pprint(dir(v))
-        pprint(v)
-        return super(JourneyCreate, self).form_valid(form)
+    def form_valid(self, form, form_wpt):
+        """
+        Called if all forms are valid. Creates a Recipe instance along with
+        associated Ingredients and Instructions and then redirects to a
+        success page.
+        """
+        pprint(form.cleaned_data)
+        pprint(form_wpt.cleaned_data)
+        #self.object = form.save()
+        form_wpt.instance = self.object
+        #form_wpt.save()
+        #return HttpResponseRedirect(self.get_success_url())
+
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  form_wpt=form_wpt))
+
+    def form_invalid(self, form, form_wpt):
+        """
+        Called if a form is invalid. Re-renders the context data with the
+        data-filled forms and errors.
+        """
+        return self.render_to_response(
+            self.get_context_data(form=form,
+                                  form_wpt=form_wpt))
