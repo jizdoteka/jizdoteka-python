@@ -4,6 +4,7 @@
 {% load journey_tags %}
 {% block extrahead %}
 <script type="text/javascript" src="{% static 'web/js/jquery.formset.js' %}"></script>
+<script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
 <script type="text/javascript">
     $(function() {
         $('#journey_wpts tbody tr').formset({
@@ -12,6 +13,12 @@
             // Django appears to generate the prefix from the lowercase plural
             // name of the related model, with camel-case converted to underscores.
             prefix: "{{ form_wpt.prefix }}"
+        });
+        $('#journey_wpts tbody').sortable({
+            axis: 'y',
+            change: function( event, ui ) {
+                console.debug(ui)
+            }
         })
     })
 </script>
@@ -32,6 +39,7 @@
             <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5">
                 <thead>
                     <tr>
+                        <th>&nbsp;</th>
                         <th scope="col">wpt</th>
                         <th scope="col">order (model)</th>
                     </tr>
@@ -39,6 +47,7 @@
                 <tbody>
                     {% for form in form_wpt.forms %}
                     <tr id="{{ form.prefix }}-row">
+                        <td>handle</td>
                         <td>
                             {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
                             {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
