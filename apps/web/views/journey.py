@@ -34,14 +34,11 @@ from . import forms
 
 
 def index(request):
-    link_dict = {"Login": 'login_screen', "Register": 'register',
-                 "Log out": 'logout_user', "Car Management": 'cars',
-                 "User Management": 'user'}
-    return render(request, 'web/index.html', {"links": link_dict})
+    return render(request, 'web/index.html')
 
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect('../../')
+    return HttpResponseRedirect('../../') ## TODO: OPRAVIT, vyvaruj se absolutnim adresam
 
 
 class LoginScreen(View):
@@ -66,13 +63,14 @@ class LoginScreen(View):
 
         if self.user:
             login(request, self.user)
+            return HttpResponseRedirect('../../')
         else:
             return HttpResponse("INVALID CREDENTIALS!")
-        return HttpResponseRedirect('../../')
 
     def _check_credentials(self):
         if self.user_name and self.user_pass:
-            self.user = authenticate(username = self.user_name, password = self.user_pass)
+            self.user = authenticate(email=self.user_name,
+                                     password=self.user_pass)
         else:
             return HttpResponse("MISSING CREDENTIALS!")
 
@@ -145,7 +143,9 @@ class RegisterScreen(View):
 
 
     def _check_existing_user(self):
-        test_auth = authenticate(username = self.user_mail, password = self.user_pass)
+        test_auth = authenticate(username = self.user_mail,
+                                 password = self.user_pass,
+                                 email = self.user_mail)
         if test_auth:
             self.user_exists = True
         else:
@@ -153,7 +153,7 @@ class RegisterScreen(View):
 
 
 
-class CarManagement(View):
+class Car(View):
     header = "Car Management page"
 
     model = None
@@ -187,7 +187,6 @@ class CarManagement(View):
 
     def post(self, request):
         self.inp_method = request.POST.get('method')
-        print (request.POST)
         if self.inp_method == 'add_vehicle':
             return self._add_car(request)
         elif self.inp_method == 'remove_vehicle':
@@ -230,7 +229,7 @@ class CarManagement(View):
             return HttpResponse("FAILED TO SAVE, MISSING DATA!")
 
 
-class UserManagement(View):
+class User(View):
     header = "User control panel and information page"
     form = forms.ManageForm
 
