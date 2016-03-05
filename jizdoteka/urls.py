@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from apps.web import views
+from apps.web.views import journey
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.JourneyList.as_view(), name='home'),
-    url(r'^(?P<pk>[0-9]+)$', views.JourneyDetail.as_view(), name='journey_detail'),
+    url(r'^$', journey.JourneyList.as_view(), name='home'),
+    url(r'^(?P<pk>[0-9]+)$',
+        journey.JourneyDetail.as_view(),
+        name='journey_detail'
+    ),
 ]
