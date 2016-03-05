@@ -35,13 +35,13 @@ urlpatterns = [
     url(r'^journey/(?P<pk>[0-9]+)$', journey.JourneyDetail.as_view(), name='journey_detail'),
     url(r'^$', views.index, name='index'),
 
-    ## Nutne pro prihlaseni
+    ## Nutne pro prihlasen
     url(r'^login_screen/$', views.LoginScreen.as_view(), name="login_screen"),
     url(r'^logout_user/$', views.logout_user, name="logout_user"),
     url(r'^register/$', views.RegisterScreen.as_view(), name="register"),
-    url(r'^user/$', views.UserManagement.as_view(), name="user"),
+    url(r'^user/$', views.User.as_view(), name="user"),
 
-    url(r'^cars/$', views.CarManagement.as_view(), name="cars"),
+    url(r'^cars/$', views.Car.as_view(), name="cars"),
 
     #url(r'^user_mgmt/$', views.user_mgmt, name = "user_mgmt"),
     url(r'^accounts/', include('allauth.urls')),
