@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView, RedirectView
-from . import models
-from pprint import pprint
 
-# Create your views here.
+# FIXME: Really, really ugly!
+from .. import models
 
 
 class JourneyList(ListView):
@@ -60,6 +59,3 @@ class JourneyDetail(DetailView):
 
         return context
 
-
-class UserDetail(DetailView):
-    model = models.User
