@@ -2,16 +2,11 @@
 {% block content %}
 <div id="prechod">
 
-<<<<<<< HEAD
-  {% for name, href in links.items %}
-    <a href="{% url href%}">{{ name }}</a>
-  {% endfor %}
-=======
-  <a href="{% url 'login_screen' %}">Přihlásit se</a>
-  <a href="{% url 'logout_user' %}">Odhlásit se</a>
-  <a href="{% url 'register' %}">Registrovat se</a>
-
->>>>>>> Minifix: Docasne vyrazen user_mgmt (neni v urls)
+  <a href="{% url 'login_screen' %}">Login</a>
+  <a href="{% url 'logout_user' %}">Logout</a>
+  <a href="{% url 'register' %}">Register</a>
+  <a href="{% url 'user' %}">User Management</a>
+  <a href="{% url 'cars' %}">Cars</a>
 
 </div>
 <div id="stranka">{{ request.user.email }}

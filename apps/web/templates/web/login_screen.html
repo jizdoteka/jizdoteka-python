@@ -2,7 +2,6 @@
 {% block content %}
 <div id="prechod"><h4>{{ header }}</h4></div>
 <div id="stranka">
-
   <form action="{% url 'login_screen' %}" method="POST">{% csrf_token %}
     {{ form.as_p}}
     <input type="submit" value="Přihlásit se" class="tlacitko">
@@ -11,9 +10,5 @@
     </p>
   </form>
   <a class="tlacitko" href="{% url 'register' %}">Nemáte účet? Zaregistrujte se zde.</a>
-
-  {% block error_message %}
-
-  {% endblock error_message %}
 </div>
 {% endblock content %}

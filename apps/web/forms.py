@@ -1,9 +1,11 @@
 from django import forms
-<<<<<<< HEAD
+
 from . import models
+
 from random import randint
 from . import models
 from django.utils.translation import ugettext_lazy as _
+
 
 class SearchJourney(forms.Form):
     city_from = forms.CharField()
@@ -38,6 +40,7 @@ WaypointUpdateFormSetFactory = forms.inlineformset_factory(
     user_email_confirm = forms.CharField(max_length = 100, label = _("Your E-Mail address - Confirmation"))
     user_password = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password"))
     user_password_confirm = forms.CharField(widget = forms.PasswordInput(), label = _("Your Password - Confirmation"))
+
 
 class JourneyFormSet(forms.ModelForm):
     class Meta:
@@ -94,8 +97,3 @@ class CarManageForm(forms.Form):
     smoking_allowed = forms.BooleanField(label = "Smoking allowed in vehicle")
 
     register_sign = forms.CharField(max_length = 16, label = _("Car national register sign"))
-
-
-class CreateJourneyForm(forms.Form):
-
-    pass

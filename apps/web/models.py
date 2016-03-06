@@ -5,6 +5,12 @@ from django.utils import timezone
 from django.db import models
 from django.conf import settings
 from django.db.models import signals
+<<<<<<< HEAD
+=======
+
+from django.contrib.auth.hashers import check_password
+#from django.contrib.gis.db import models as gis_models
+>>>>>>> Commit pred rebasem
 from django.contrib.auth.models import User
 
 

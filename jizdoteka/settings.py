@@ -28,8 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,8 +40,14 @@ INSTALLED_APPS = [
     # 'django.contrib.gis',
     'debug_toolbar',
     'apps.web',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'emailusernames',
-    'colorfield',
+
+    # Facebook
+    'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -70,6 +74,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Required by allauth template tags
+                "django.core.context_processors.request",
+                # allauth specific context processors
             ],
             'libraries': {
                 # TODO: ugly hack! Figure out how to load templatetags properly
@@ -93,10 +100,13 @@ DATABASES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'emailusernames.backends.EmailAuthBackend',
     # Uncomment the following to make Django tests pass:
-    # 'django.contrib.auth.backends.ModelBackend',
+    'emailusernames.backends.EmailAuthBackend',
+    #'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
