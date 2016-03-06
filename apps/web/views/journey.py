@@ -1,4 +1,3 @@
-
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView, UpdateView
 from django.views.generic.edit import FormView
@@ -243,6 +242,15 @@ class WaypointNotFound(Exception):
 
 
 class JourneyList(ListView, FormView):
+
+from django.views.generic import ListView, DetailView
+from pprint import pprint
+
+# Import forms
+from .. import forms
+# Import models
+from .. import models
+
 
     model = models.Journey
     form_class = forms.SearchJourney
