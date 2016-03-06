@@ -19,7 +19,6 @@ from django import forms as dj_forms
 
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView, RedirectView, View
-from . import models
 from pprint import pprint
 
 from django.contrib.auth.decorators import login_required
