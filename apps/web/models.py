@@ -105,6 +105,7 @@ class Journey(models.Model):
 
     def __str__(self):
         label = self.journeywaypoints_set.order_by('order')
+        #return "%s" % self.date
         return '%s -> %s [%s]' % (
             label.first().waypoint.city,
             label.last().waypoint.city,
@@ -152,14 +153,17 @@ class JourneyWaypoints(models.Model):
         blank=True,
     )
 
-    class Meta:
-        unique_together = (('journey', 'order'),)
+    #class Meta:
+    #    unique_together = (('journey', 'order'),)
 
     def __str__(self):
         return '%s [#%s]: %s' % (self.journey, self.order, self.waypoint)
 
     def free_seats(self):
-        return self.journey.seats - self.passangers.filter(state__exact=Passanger.SUBSCRIBED).count()
+        return self.journey.seats - self.occupied_seats()
+
+    def occupied_seats(self):
+        return self.passangers.filter(state__exact=Passanger.SUBSCRIBED).count()
 
 
 class Passanger(models.Model):

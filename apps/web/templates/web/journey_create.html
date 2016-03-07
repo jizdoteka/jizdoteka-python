@@ -2,15 +2,34 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% load journey_tags %}
+{% block extrahead %}
+<script type="text/javascript">
+    $(function() {
+        $('#id_orders_table tbody tr').formset({
+            // For inline formsets, be sure to set the prefix, as the default prefix
+            // ('form') isn't correct.
+            // Django appears to generate the prefix from the lowercase plural
+            // name of the related model, with camel-case converted to underscores.
+            prefix: "{{ form.prefix }}"
+        })
+    })
+</script>
+<style type="text/css">
+    .delete-row {
+        margin-left:5px;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 
-<form id="forms" method="post">
+<form id="journey_form" method="post">
     {% csrf_token %}
     {{ form.management_form }}
-        {{ form.empty_form }}<hr><hr>
+    {{ form.empty_form }}<hr><hr>
+
     {% for item_form in form %}
-        {{ item_form }}<br>
+        {{ item_form. }}<br>
     <hr>
     {% endfor %}
     <input type="submit" />
@@ -19,7 +38,7 @@
     <ul id="waypoints">
     </ul>
 
-<script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
+{% comment %}<script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>{% endcomment %}
 <script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
 <script>
 function waypoint_add(i) {
@@ -38,9 +57,7 @@ function waypoint_add(i) {
 
 $(document).ready(function() {
     //var form_count = $("[name=waypoints_count").val();
-    $('#waypoints').sortable({
-        axis: "y"
-    })
+
     // get extra form count so we know what index to use for the next item.
     $("#add-another").click(function() {
         form_count = '';

@@ -14,12 +14,17 @@
             // name of the related model, with camel-case converted to underscores.
             prefix: "{{ form_wpt.prefix }}"
         });
+        var sort_hook = function(event, ui) {
+            var rows = $(this).find('tr').has('input')
+            rows.each(function(i, input) {
+                $(input).find('input[name*=-order], input[name*=-ORDER]').val(i)
+            })
+        }
+
         $('#journey_wpts tbody').sortable({
             axis: 'y',
-            change: function( event, ui ) {
-                console.debug(ui)
-            }
-        })
+            stop: sort_hook
+        }).each(sort_hook)
     })
 </script>
 <style type="text/css">
@@ -30,30 +35,47 @@
 {% endblock %}
 
 {% block content %}
-
 <form id="journey_form" method="post">
     {% csrf_token %}
     {{ form.as_p }}<br>
-
-
             <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5">
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
                         <th scope="col">wpt</th>
                         <th scope="col">order (model)</th>
+                        <th>price</th>
+                        <th>output only</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for form in form_wpt.forms %}
-                    <tr id="{{ form.prefix }}-row">
+                    {% for wpt in form_wpt.forms %}
+                    <tr id="{{ wpt.prefix }}-row">
                         <td>handle</td>
                         <td>
-                            {% for fld in form.hidden_fields %}{{ fld }}{% endfor %}
-                            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-                            {{ form.waypoint }}
+                            {% for fld in wpt.hidden_fields %}{{ fld }}{% endfor %}
+                            {% comment %}
+                                {% if wpt.instance.pk %}{{ wpt.ORDER }}{{ wpt.DELETE }}{% endif %}
+                            {% endcomment %}
+                            {{ wpt.ORDER.as_hidden }}{{ wpt.DELETE }}
+                            {{ wpt.waypoint }}
+                            {{ wpt.waypoint.errors }}
                         </td>
-                        <td>{{ form.order }}</td>
+                        <td>
+                            {{ wpt.order }}
+                            {{ wpt.order.errors }}
+                        </td>
+                        <td>
+                            {{ wpt.segment_price }}
+                            {{ wpt.segment_price.errors }}
+                        </td>
+                        <td>
+                            {{ wpt.output_only }}
+                            {{ wpt.output_only.errors }}
+                        </td>
+                        <td>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

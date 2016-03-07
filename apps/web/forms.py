@@ -10,16 +10,26 @@ class SearchJourney(forms.Form):
 class Journey(forms.ModelForm):
     class Meta:
         model = models.Journey
-        fields = ['seats', 'date', 'approx', 'approx_note', 'currency']
+        fields = ['seats', 'driver', 'date', 'approx', 'approx_note', 'currency']
 
 
-WaypointFormSetFactory = forms.inlineformset_factory(
-    models.Journey,
-    models.JourneyWaypoints,
-    fields=('waypoint', 'order'),
+wpt_base_factory_kwargs = {
+    'parent_model': models.Journey,
+    'model': models.JourneyWaypoints,
+    'fields': ('waypoint', 'order', 'label', 'output_only', 'segment_price'),
+    'extra': 0,
+    'can_order': True,
+    'can_delete': True,
+}
+wpt_new_factory_kwargs = dict(wpt_base_factory_kwargs)
+wpt_update_factory_kwargs = dict(wpt_base_factory_kwargs)
+wpt_new_factory_kwargs['extra'] = 2
 
-    can_order=False
-)
+WaypointNewFormSetFactory = forms.inlineformset_factory(
+    **wpt_new_factory_kwargs)
+WaypointUpdateFormSetFactory = forms.inlineformset_factory(
+    **wpt_update_factory_kwargs)
+
 
 class JourneyFormSet(forms.ModelForm):
     class Meta:
