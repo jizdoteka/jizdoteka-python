@@ -20,6 +20,8 @@ from apps.web.views import journey
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', journey.JourneyList.as_view(), name='home'),
+    url(r'^new/$', journey.JourneyCreate.as_view(), name='journey_new'),
+    url(r'^update/(?P<pk>[0-9]+)$', journey.JourneyUpdate.as_view(), name='journey_update'),
     url(r'^(?P<pk>[0-9]+)$',
         journey.JourneyDetail.as_view(),
         name='journey_detail'

@@ -5,21 +5,26 @@
 
 {% block content %}
 
-<h1>{{ object.journeywaypoints_set|first_city }} --&gt; {{ object.journeywaypoints_set|last_city }}</h1>
+<h1>{{ object.journeywaypoints_set|first_city }} --&gt; {{ object.journeywaypoints_set|last_city }} <a href="{% url 'journey_update' pk=object.pk %}">edit</a></h1>
 <ul>
     <li>{{ object.driver|pretty_name }}</li>
+    <li>{{ object.currency }}</li>
+    <li>{{ object.seats }} free seats</li>
 </ul>
 <table>
     <tr>
     {% for waypoint in object.journeywaypoints_set|sort_wpts %}
-        <th>#{{ waypoint.order }} {{ waypoint.waypoint.city }} ({{ waypoint.segment_price }} {{ object.currency }})</th>
+        <th>#{{ waypoint.order }} {{ waypoint.waypoint.city }} ({{ waypoint.segment_price }} {{ object.currency }})<br>
+            Free={{ waypoint.free_seats }}
+        </th>
     {% endfor %}
     </tr>
     {% for _, passanger in passangers.items %}
     <tr>
-        {% for _ in passanger.start|get_range %}<td>.</td>{% endfor %}
-        {% for _ in passanger.length|get_range %}<td>{{ passanger.user.user|pretty_name }}</td>{% endfor %}
-        {% for _ in passanger.rest|get_range %}<td>.</td>{% endfor %}
+        {% for _ in passanger.start|get_range %}<td>&nbsp;</td>{% endfor %}
+        {% comment %}<td colspan="{{ passanger.length }}">{{ passanger.user.user|pretty_name }}</td>{% endcomment %}
+        <td>{{ passanger.user.user|pretty_name }}</td>
+        {% for _ in passanger.rest|get_range %}<td>&nbsp;</td>{% endfor %}
     </tr>
     {% endfor %}
 </table>

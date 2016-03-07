@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% load journey_tags %}
+{% block extrahead %}
+<script type="text/javascript" src="{% static 'web/js/jquery.formset.js' %}"></script>
+<script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#journey_wpts tbody tr').formset({
+            // For inline formsets, be sure to set the prefix, as the default prefix
+            // ('form') isn't correct.
+            // Django appears to generate the prefix from the lowercase plural
+            // name of the related model, with camel-case converted to underscores.
+            prefix: "{{ form_wpt.prefix }}"
+        });
+        var sort_hook = function(event, ui) {
+            var rows = $(this).find('tr').has('input')
+            rows.each(function(i, input) {
+                $(input).find('input[name*=-order], input[name*=-ORDER]').val(i)
+            })
+        }
+
+        $('#journey_wpts tbody').sortable({
+            axis: 'y',
+            stop: sort_hook
+        }).each(sort_hook)
+    })
+</script>
+<style type="text/css">
+    .delete-row {
+        margin-left:5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<form id="journey_form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}<br>
+            <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th scope="col">wpt</th>
+                        <th scope="col">order (model)</th>
+                        <th>price</th>
+                        <th>output only</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for wpt in form_wpt.forms %}
+                    <tr id="{{ wpt.prefix }}-row">
+                        <td>handle</td>
+                        <td>
+                            {% for fld in wpt.hidden_fields %}{{ fld }}{% endfor %}
+                            {% comment %}
+                                {% if wpt.instance.pk %}{{ wpt.ORDER }}{{ wpt.DELETE }}{% endif %}
+                            {% endcomment %}
+                            {{ wpt.ORDER.as_hidden }}{{ wpt.DELETE }}
+                            {{ wpt.waypoint }}
+                            {{ wpt.waypoint.errors }}
+                        </td>
+                        <td>
+                            {{ wpt.order }}
+                            {{ wpt.order.errors }}
+                        </td>
+                        <td>
+                            {{ wpt.segment_price }}
+                            {{ wpt.segment_price.errors }}
+                        </td>
+                        <td>
+                            {{ wpt.output_only }}
+                            {{ wpt.output_only.errors }}
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+    {{ form_wpt.management_form }}
+
+    <input type="submit" />
+</form>
+
+{% endblock %}
