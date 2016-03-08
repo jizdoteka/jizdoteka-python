@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% load journey_tags %}
-{% block extrahead %}
+{% block head %}
 <script type="text/javascript" src="{% static 'web/js/jquery.formset.js' %}"></script>
 <script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
 <script type="text/javascript">
@@ -43,9 +43,9 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th scope="col">wpt</th>
-                        <th scope="col">order (model)</th>
+                        <th scope="col">label</th>
                         <th>price</th>
-                        <th>output only</th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -63,8 +63,10 @@
                             {{ wpt.waypoint.errors }}
                         </td>
                         <td>
-                            {{ wpt.order }}
+                            {{ wpt.order.as_hidden }}
                             {{ wpt.order.errors }}
+                            {{ wpt.label }}
+                            {{ wpt.label.errors }}
                         </td>
                         <td>
                             {{ wpt.segment_price }}
