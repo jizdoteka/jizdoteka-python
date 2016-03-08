@@ -4,17 +4,39 @@
 
 ## Instalace
 
-Pro účely vývoje/testování doporučuji použít `virtualenv` (pip3 install virtualenv)
+Pro účely vývoje/testování doporučuji použít `virtualenv` (`pip3 install virtualenv`, nebo `dnf install python3-virtualenv`).
+
+Projekt je stavěn na frameworku Django 1.9 pro Python 3.4 (a vyšší).
+
+Stáhnutí zdrojových kódů:
 ```
+git clone https://github.com/jizdoteka/jizdoteka-web.git
+cd jizdoteka-web
+```
+
+Založíme virtualenv prostředí (například `venv`) a nainstalujeme závislosti:
+```
+virtualenv-3.4 venv
+source venv/bin/activate
 pip3 install -r requirements.txt
+git clone https://github.com/harmo/django-email-as-username.git
+python django-email-as-username/setup.py install
 ```
 
 Spuštění serveru: `./manage.py runserver`
 
-Web je dostupný na: `http://localhost:8000`
-Administrace (admin/admin): `http://localhost:8000/admin`
+> Web je dostupný na: `http://localhost:8000`
+>
+> Administrace (admin/admin): `http://localhost:8000/admin`
 
-Pokud jste provedli nějaké změny v modelech: `./manage.py makemigrations` a následně `./manage.py migrate`
+Pokud jste provedli nějaké změny v modelech, je nutné vytvořit migrace DB pomocí:
+```
+./manage.py makemigrations
+```
+a následně je aplikovat:
+```
+./manage.py migrate
+```
 
 ## Stav projektu
 Rozpracováno (částečně funguje):
