@@ -2,6 +2,31 @@
 
 [![Gitter](https://badges.gitter.im/jizdoteka/general.svg)](https://gitter.im/jizdoteka/general?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+
+***Nelíbí se Ti BlaBlaCar?
+Ani nám!
+Pojdme spolu udělat něco lepšího.***
+
+Proč?
+Jako náhrada jízdomatu a protože blablacar nám nevyhovuje (je komerční a po čase si ve většině zemí začíná účtovat cca 10% poplatky).
+
+Co chceme?
+ * Nekomerční aplikaci (žádné poplatky!)
+ * Svobodu v určování cen jízdného a žádnou cenzuru
+ * Dělat to pro sebe
+ * Být otevření změnám - každý se může zapojit
+
+Jak?
+* Vlastní open-source aplikace na www.jizdoteka.cz
+* Inspirujeme se jízdomatem
+* Nepřevezmeme chyby blablacaru
+
+
+
+
+
+
+
 ## Instalace
 
 Pro účely vývoje/testování doporučuji použít `virtualenv` (`pip3 install virtualenv`, nebo `dnf install python3-virtualenv`).
