@@ -15,37 +15,26 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from apps.web.views import journey
+from apps.web.views import journey, index, user, car
 
 urlpatterns = [
+    ## Zaklady
     url(r'^admin/', admin.site.urls),
-    url(r'^$', journey.JourneyList.as_view(), name='home'),
-    url(r'^new/$', journey.JourneyCreate.as_view(), name='journey_new'),
-    url(r'^update/(?P<pk>[0-9]+)$', journey.JourneyUpdate.as_view(), name='journey_update'),
-    url(r'^(?P<pk>[0-9]+)$',
-        journey.JourneyDetail.as_view(),
-        name='journey_detail'
-    ),
+    url(r'^$', index, name='index'),
 
+    ## Nutne pro prihlasen
+    url(r'^login_screen/$', user.LoginScreen.as_view(), name="login_screen"),
+    url(r'^logout_user/$', user.logout_user, name="logout_user"),
+    url(r'^register/$', user.RegisterScreen.as_view(), name="register"),
+
+    ## Jizdy
     url(r'^journey/$', journey.JourneyList.as_view(), name='journey'),
     url(r'^journey/new/$', journey.JourneyCreate.as_view(), name='journey_new'),
     url(r'^journey/update/(?P<pk>[0-9]+)$', journey.JourneyUpdate.as_view(), name='journey_update'),
-    url(r'^jounrey/(?P<pk>[0-9]+)$',
-
     url(r'^journey/(?P<pk>[0-9]+)$', journey.JourneyDetail.as_view(), name='journey_detail'),
-    url(r'^$', views.index, name='index'),
 
-    ## Nutne pro prihlasen
-    url(r'^login_screen/$', views.LoginScreen.as_view(), name="login_screen"),
-    url(r'^logout_user/$', views.logout_user, name="logout_user"),
-    url(r'^register/$', views.RegisterScreen.as_view(), name="register"),
-    url(r'^user/$', views.User.as_view(), name="user"),
+    ## Managing
+    url(r'^user/$', user.User.as_view(), name="user"),
+    url(r'^cars/$', car.Car.as_view(), name="cars"),
 
-    url(r'^cars/$', views.Car.as_view(), name="cars"),
-
-    #url(r'^user_mgmt/$', views.user_mgmt, name = "user_mgmt"),
-    url(r'^accounts/', include('allauth.urls')),
-
-
-    #url(r'^(?P<pk>[0-9]+)$', views.JourneyDetail.as_view(), name='journey_detail'),
 ]

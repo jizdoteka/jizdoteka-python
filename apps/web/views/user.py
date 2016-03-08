@@ -14,15 +14,15 @@ def logout_user(request):
     return HttpResponseRedirect('../../') ## TODO: OPRAVIT, vyvaruj se absolutnim adresam
 
 
-class UserSettings(DetailView):
-    header = "User control panel"
+class User(DetailView):
+    header = "User control panel and information page"
     form = forms.ManageForm
 
     def get(self, request):
-        return render(request, 'web/settings.html', {"form": self.form,
+        return render(request, 'web/user.html', {"form": self.form,
                                                  "header": self.header})
     def post(self, request):
-        password
+        pass
 
 
 class LoginScreen(DetailView):
@@ -44,8 +44,8 @@ class LoginScreen(DetailView):
                                                          "header": self.header})
 
     def post(self, request):
-        self.name = request.POST['name']
-        self.password = request.POST['password']
+        self.name = request.POST['user_name']
+        self.password = request.POST['user_pass']
         self._check_credentials()
         print (self.name, self.password)
 

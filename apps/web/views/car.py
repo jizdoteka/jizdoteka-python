@@ -26,41 +26,11 @@ class Car(DetailView):
                      passengers to find you.")
 
     form = forms.CarManageForm()
-    model = models.Vehicle
-
-    def get(self, request):
-        return render(request, 'web/cars.html', {"form": self.form,
-                                                 "header": self.header,
-                                                 "reg_notice": self.reg_notice,
-                                                 "cars": self.model})
-
-"""class Car(DetailView):
-    header = "Car Management page"
-
-    model = None
-    owner = None
-    name = None
-    color = None
-
-    air_conditioning = False
-    animals_allowed = False
-    has_wifi = False
-    has_highway_sign = False
-    smoking_allowed = False
-
-    register_sign = None
-    reg_notice = ("NOTE", "If you really don't want to, you DO NOT have\
-                     to enter your national car sign. Hovever, if\
-                    you fill it, you will make it easier for\
-                     passengers to find you.")
-
-    form = forms.CarManageForm()
     inp_method = None
     message = None
 
     def get(self, request):
         self.model = models.Vehicle.objects.filter(owner=request.user)
-        print (self.model)
         return render(request, 'web/cars.html', {"form": self.form,
                                                  "car_list": self.model,
                                                  "message": self.message,
@@ -109,4 +79,3 @@ class Car(DetailView):
             return HttpResponseRedirect(".")
         else:
             return HttpResponse("FAILED TO SAVE, MISSING DATA!")
-"""
