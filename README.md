@@ -43,8 +43,11 @@ Rozpracováno (částečně funguje):
  * model DB, dost tam toho ještě chybí, ale to nejdůležitější (jízdy jako takové) jsou z velké části udělané. Počítám s tím, že se lidé mohou přihlásit jen na část trasy, cena za úsek je nepovinná
  * výpis jízd
  * detail vybrané jízdy - vč. přihlášených lidí na úsecích
+ * vytvoření a editace existující jízdy
 
 Chybí, je třeba opravit (hmm.. od čeho začít :)
  * plnění webu day prozatím pouze skrze administraci (viz. link výše)
- * (skrze administraci) lze přihlásit pasažéra i na trasu mimo jeho jízdu - toto budeme stejně ošetřovat už při vkládání do DB, takže to nakonec tak moc vadit nebude
- * všechno ostatní ...
+ * front-end, design
+ * hodnocení jízd
+ * poptávky jízd
+ * (a všechno ostatní ...)
