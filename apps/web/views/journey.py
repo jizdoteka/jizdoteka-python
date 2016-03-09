@@ -25,8 +25,8 @@ class JourneyList(ListView, FormView):
     form_class = forms.SearchJourney
     success_url = '/'   # TODO: replace by generic URL of this page
     filter = {
-        'city_from': models.Waypoint.objects.filter(pk=3).get(),
-        'city_to': models.Waypoint.objects.filter(pk=2).get(),
+        'city_from': None, #models.Waypoint.objects.filter(pk=3).get(),
+        'city_to': None #models.Waypoint.objects.filter(pk=2).get(),
     }
 
     GMAPS_CITY_COMPONENT = 'locality'
@@ -45,8 +45,13 @@ class JourneyList(ListView, FormView):
 
         context['form_search_journey'] = forms.SearchJourney()
         context['filter'] = self.filter
+        context['is_filter_active'] = self._is_filter_active()
 
         return context
+
+    def _is_filter_active(self):
+        return (self.filter['city_from'] is not None and
+                self.filter['city_to'] is not None)
 
     def __city_to_waypoint_model(self, long_city_name):
         gmaps = googlemaps.Client(key='AIzaSyAen5jtHmdJ5ZW3ZOCoqDVjZLkDlILJ014')
@@ -87,6 +92,9 @@ class JourneyList(ListView, FormView):
         return super(JourneyList, self).form_valid(form)
 
     def get_queryset(self):
+        if not self._is_filter_active():
+            return models.Journey.objects.all()
+
         # TODO: add other restrictions such as date
         qs = models.Journey.objects.raw('''
             SELECT

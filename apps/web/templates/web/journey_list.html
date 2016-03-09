@@ -37,7 +37,13 @@ Filter: {{ filter.city_from.city }} (ID:{{ filter.city_from.id }}) --- {{ filter
         </td>
         <td>{{ journey.date }}</td>
         <td>{{ journey.driver.first_name }} {{ journey.driver.last_name }}</td>
-        <td>{% count_free_seats journey filter.city_from filter.city_to %}/{{ journey.seats }}</td>
+        <td>
+            {% if is_filter_active %}
+            {% count_free_seats journey filter.city_from filter.city_to %}/{{ journey.seats }}
+            {% else %}
+            {% count_free_seats journey journey.journeywaypoints_set|first_city journey.journeywaypoints_set|last_city %}/{{ journey.seats }}
+            {% endif %}
+        </td>
     </tr>
 {% endfor %}
 </table>
