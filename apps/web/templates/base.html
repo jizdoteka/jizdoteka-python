@@ -39,9 +39,9 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="#about">About</a></li>
-            {%if user.is_authenticated%}
+            {% if user.is_authenticated %}
                 <li>
-                    <a href="{%url "user-settings"%}">
+                    <a href="{% url "user-settings" %}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
                     {% if request.user.first_name or request.user.last_name %}
                         {{ request.user.first_name }} {{ request.user.last_name }}
@@ -76,6 +76,13 @@
     </nav>
 
     <div class="container" id="main-container">
+	    {% if messages %}
+	    <ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	    </ul>
+	    {% endif %}
         {% block content %}
         {% endblock %}
     </div><!-- /.container -->
