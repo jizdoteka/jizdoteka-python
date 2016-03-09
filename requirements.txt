@@ -1,4 +1,6 @@
 Django==1.9.2
-django-debug-toolbar
-googlemaps
+django-debug-toolbar==1.4
+googlemaps==2.4.2
 pudb
+django-allauth==0.24.1
+django-bootstrap-form==3.2
