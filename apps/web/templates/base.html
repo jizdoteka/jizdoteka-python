@@ -2,19 +2,81 @@
 {% load static from staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="{% static 'web/css/styles.css' %}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'web/favicon.ico'%}">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+
     <link type="text/css" rel="stylesheet" href="{% static 'web/jquery-ui-1.11.4/jquery-ui.css' %}">
-    <script type="text/javascript" src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
+
     {% block extrahead %}{% endblock %}
-</head>
-<body>
+  </head>
 
-{% block content %}Here is missing {block}!{% endblock %}
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="#about">About</a></li>
+            {%if user.is_authenticated%}
+                <li>
+                    <a href="{%url "user-settings"%}">
+                    {% if request.user.first_name or request.user.last_name %}
+                        {{ request.user.first_name }} {{ request.user.last_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                    </a>
+                </li>
+                <li><a href="{%url "account_logout"%}">Logout</a></li>
+            {%else%}
+                <li><a href="{%url "account_signup"%}">Sign up</a></li>
+                <li><a href="{%url "account_login"%}">Login</a></li>
+            {%endif%}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <br />
+                <br />
+                
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    </div><!-- /.container -->
 
 
-
-</body>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+  </body>
 </html>
