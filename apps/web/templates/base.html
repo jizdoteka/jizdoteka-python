@@ -11,12 +11,13 @@
     <meta name="author" content="">
     <link rel="icon" href="{% static 'web/favicon.ico'%}">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Jizdoteka {%block title%}{%endblock%}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
 
     <link type="text/css" rel="stylesheet" href="{% static 'web/jquery-ui-1.11.4/jquery-ui.css' %}">
+    <link href="{% static 'web/css/styles.css'%}" rel="stylesheet">
 
     {% block extrahead %}{% endblock %}
   </head>
@@ -32,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Project name</a>
+          <a class="navbar-brand" href="/">Jízdotéka.cz</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -41,6 +42,7 @@
             {%if user.is_authenticated%}
                 <li>
                     <a href="{%url "user-settings"%}">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
                     {% if request.user.first_name or request.user.last_name %}
                         {{ request.user.first_name }} {{ request.user.last_name }}
                     {% else %}
@@ -48,28 +50,34 @@
                     {% endif %}
                     </a>
                 </li>
-                <li><a href="{%url "account_logout"%}">Logout</a></li>
+                <li>
+                    <a href="{%url "account_logout"%}">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;
+                        Logout
+                    </a>
+                </li>
             {%else%}
-                <li><a href="{%url "account_signup"%}">Sign up</a></li>
-                <li><a href="{%url "account_login"%}">Login</a></li>
+                <li>
+                    <a href="{%url "account_signup"%}">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
+                        Sign up
+                    </a>
+                </li>
+                <li>
+                    <a href="{%url "account_login"%}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
+                        Login
+                    </a>
+                </li>
             {%endif%}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-
-                <br />
-                <br />
-                
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
-
+    <div class="container" id="main-container">
+        {% block content %}
+        {% endblock %}
     </div><!-- /.container -->
 
 
