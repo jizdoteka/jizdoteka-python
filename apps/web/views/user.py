@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 
 
 class UserSettingsView(UpdateView):
-    template_name = "web/user.html"
+    template_name = "account/user.html"
     model = User
     #form_class = UserSettingsForm
     fields = ["username", "first_name", "last_name"]
