@@ -299,7 +299,7 @@ class JourneyUpdate(UpdateView):
                                   form_wpt=form_wpt))
 
 
-class DeleteJourney(DeleteView):
+class JourneyDelete(DeleteView):
     model = models.Journey
 
     def dispatch(self, request, *args, **kwargs):
@@ -309,4 +309,4 @@ class DeleteJourney(DeleteView):
             messages.error(request, _('This car is not yours.'))
             return http.HttpResponseRedirect(reverse_lazy('index'))
         messages.info(_('Journey was deleted.'))
-        return super(DeleteJourney, self).dispatch(request, *args, **kwargs)
+        return super(JourneyDelete, self).dispatch(request, *args, **kwargs)
