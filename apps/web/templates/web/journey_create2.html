@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n bootstrap %}
 {% load static from staticfiles %}
 {% load journey_tags %}
-{% block head %}
+{% block extrahead %}
 <script type="text/javascript" src="{% static 'web/js/jquery.formset.js' %}"></script>
-<script src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
 <script type="text/javascript">
     $(function() {
         $('#journey_wpts tbody tr').formset({
@@ -35,10 +35,18 @@
 {% endblock %}
 
 {% block content %}
+<h1>{% trans 'Journey' %}</h1>
 <form id="journey_form" method="post">
     {% csrf_token %}
-    {{ form.as_p }}<br>
-            <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5">
+    {{ form|bootstrap }}
+
+    <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading">Waypoints of the journey</div>
+          <div class="panel-body">
+            <p>Change order waypoints by drag&drop.</p>
+          </div>
+            <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5" class="table">
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
@@ -55,10 +63,7 @@
                         <td>handle</td>
                         <td>
                             {% for fld in wpt.hidden_fields %}{{ fld }}{% endfor %}
-                            {% comment %}
-                                {% if wpt.instance.pk %}{{ wpt.ORDER }}{{ wpt.DELETE }}{% endif %}
-                            {% endcomment %}
-                            {{ wpt.ORDER.as_hidden }}{{ wpt.DELETE }}
+                            {{ wpt.ORDER.as_hidden }}{{ wpt.DELETE.as_hidden }}
                             {{ wpt.waypoint }}
                             {{ wpt.waypoint.errors }}
                         </td>
@@ -84,6 +89,7 @@
             </table>
 
     {{ form_wpt.management_form }}
+        </div>
 
     <input type="submit" />
 </form>

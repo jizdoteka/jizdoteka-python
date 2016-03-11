@@ -1,6 +1,6 @@
 from django import forms
 from . import models
-
+from django.contrib.auth.models import User
 
 class SearchJourney(forms.Form):
     city_from = forms.CharField()
@@ -10,7 +10,7 @@ class SearchJourney(forms.Form):
 class Journey(forms.ModelForm):
     class Meta:
         model = models.Journey
-        fields = ['seats', 'driver', 'date', 'approx', 'approx_note', 'currency']
+        fields = ['seats', 'date', 'approx', 'approx_note', 'currency']
 
 
 wpt_base_factory_kwargs = {
@@ -36,3 +36,23 @@ class JourneyFormSet(forms.ModelForm):
         model = models.JourneyWaypoints
         fields = ['journey', 'waypoint', 'label']
         js = ('js/jquery.js',)
+
+
+class CarForm(forms.ModelForm):
+    class Meta():
+        model = models.Car
+        fields = '__all__'
+        exclude = ('owner',)
+
+
+class UserForm(forms.ModelForm):
+    class Meta():
+        model = User
+        fields = ['username', 'first_name', 'last_name']
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta():
+        model = models.UserProfile
+        fields = '__all__'
+        exclude = ('user',)

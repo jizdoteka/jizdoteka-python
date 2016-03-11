@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>api4.mapy.cz - geokódování</title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script src="http://api.mapy.cz/loader.js"></script>
+        <script>Loader.load()</script>
+        <script type="text/javascript">
+$(document).ready(function() {
+    var m = new SMap(JAK.gel("mapa"));
+    m.addControl(new SMap.Control.Sync());
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    function geokoduj(e, elm) {  /* Voláno při odeslání */
+        JAK.Events.cancelDef(e); /* Zamezit odeslání formuláře */
+        var query = JAK.gel("query").value;
+        new SMap.Geocoder(query, odpoved);
+    }
+
+    function odpoved(geocoder) { /* Odpověď */
+        if (!geocoder.getResults()[0].results.length) {
+            alert("Tohle neznáme.");
+            return;
+        }
+
+        var vysledky = geocoder.getResults()[0].results;
+        var data = [];
+        while (vysledky.length) { /* Zobrazit všechny výsledky hledání */
+            var item = vysledky.shift()
+            console.debug(item)
+            data.push(item.label + " (" + item.coords.toWGS84(2).reverse().join(", ") + ")");
+        }
+        $('#result').html(data.join("<br />"));
+    }
+
+    var form = JAK.gel("form");
+    JAK.Events.addListener(form, "submit", geokoduj); /* Při odeslání formuláře pustit geokódování */
+})
+        </script>
+    </head>
+    <body id="advanced-geocoding">
+        <div id="mapa" style="height:360px"></div>
+<script type="text/javascript">
+/*
+    var stred = SMap.Coords.fromWGS84(14.41, 50.08);
+    var mapa = new SMap(JAK.gel("mapa"), stred, 10);
+    mapa.addDefaultLayer(SMap.DEF_BASE).enable();
+    mapa.addDefaultControls();
+
+
+var centerMap = SMap.Coords.fromWGS84(14.40, 50.08);
+var m = new SMap(JAK.gel("m"), centerMap, 16);
+var l = m.addDefaultLayer(SMap.DEF_BASE).enable();
+m.addDefaultControls();
+
+
+var nalezeno = function(route) {
+    var vrstva = new SMap.Layer.Geometry();
+    m.addLayer(vrstva).enable();
+
+    var coords = route.getResults().geometry;
+    var cz = m.computeCenterZoom(coords);
+    m.setCenterZoom(cz[0], cz[1]);
+    var g = new SMap.Geometry(SMap.GEOMETRY_POLYLINE, null, coords);
+    vrstva.addGeometry(g);
+}
+
+var coords = [
+    SMap.Coords.fromWGS84(14.434, 50.084),
+    SMap.Coords.fromWGS84(16.600, 49.195)
+];
+var route = new SMap.Route(coords, nalezeno);
+*/
+</script>
+        <form id="form">
+            <p>
+                <label>Hledaná oblast: <input type="text" id="query" value="Radlická 2" /></label>
+                <input type="submit" value="Hledat" />
+            </p>
+        </form>
+        <div id="result"></div>
+    </body>
+</html>
