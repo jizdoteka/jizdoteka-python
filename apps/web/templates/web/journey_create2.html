@@ -6,13 +6,22 @@
 <script type="text/javascript" src="{% static 'web/js/jquery.formset.js' %}"></script>
 <script type="text/javascript" src="{% static 'web/jquery-ui-1.11.4/jquery-ui.js' %}"></script>
 <script type="text/javascript">
+var fixHelper = function(e, ui) {
+  ui.children().each(function() {
+    $(this).width($(this).width());
+  });
+  return ui;
+};
+
     $(function() {
         $('#journey_wpts tbody tr').formset({
             // For inline formsets, be sure to set the prefix, as the default prefix
             // ('form') isn't correct.
             // Django appears to generate the prefix from the lowercase plural
             // name of the related model, with camel-case converted to underscores.
-            prefix: "{{ form_wpt.prefix }}"
+            prefix: "{{ form_wpt.prefix }}",
+            deleteText: '<span class="glyphicon glyphicon-remove"> {% trans 'Delete' %}</span>',
+            addText: '{% trans 'Add new waypoint' %}',
         });
         var sort_hook = function(event, ui) {
             var rows = $(this).find('tr').has('input')
@@ -23,14 +32,23 @@
 
         $('#journey_wpts tbody').sortable({
             axis: 'y',
-            stop: sort_hook
+            stop: sort_hook,
+            helper: fixHelper,
         }).each(sort_hook)
     })
 </script>
 <style type="text/css">
-    .delete-row {
-        margin-left:5px;
-    }
+.delete-row {
+    margin-left:5px;
+}
+.ui-sortable-helper {
+    display: table;
+    background-color: #E4FFE5;
+}
+.sort-handle {
+    width: 10px;
+    cursor: move;
+}
 </style>
 {% endblock %}
 
@@ -46,21 +64,23 @@
           <div class="panel-body">
             <p>Change order waypoints by drag&drop.</p>
           </div>
-            <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5" class="table">
+            <table id="journey_wpts" border="0" cellpadding="0" cellspacing="5" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
-                        <th scope="col">wpt</th>
-                        <th scope="col">label</th>
-                        <th>price</th>
-                        <th></th>
+                        <th scope="col">{% trans 'Place' %}</th>
+                        <th scope="col">{% trans 'Place description' %} <small>{% trans 'i.e. parking by store XYZ' %}</small></th>
+                        <th>{% trans 'Price from first stop' %}</th>
+                        <th>{% trans 'Leave only' %}</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for wpt in form_wpt.forms %}
                     <tr id="{{ wpt.prefix }}-row">
-                        <td>handle</td>
+                        <td class="sort-handle">
+                            <div class="glyphicon glyphicon-sort"></divcla>
+                        </td>
                         <td>
                             {% for fld in wpt.hidden_fields %}{{ fld }}{% endfor %}
                             {{ wpt.ORDER.as_hidden }}{{ wpt.DELETE.as_hidden }}

@@ -4,6 +4,7 @@ from django.views.generic import DeleteView
 from django.views.generic.edit import FormView
 from .. import models
 from .. import forms
+from django import forms as dj_forms
 import googlemaps
 from django.contrib import messages
 import pudb
@@ -190,6 +191,7 @@ class JourneyCreate(CreateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         form.instance.driver = self.request.user
+
         form_wpt = forms.WaypointNewFormSetFactory(self.request.POST)
 
         if form.is_valid() and form_wpt.is_valid():
@@ -220,7 +222,8 @@ class JourneyCreate(CreateView):
         """
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  form_wpt=form_wpt))
+                                  form_wpt=form_wpt)
+        )
 
 
 class JourneyUpdate(UpdateView):
@@ -267,7 +270,6 @@ class JourneyUpdate(UpdateView):
 
         form_wpt = forms.WaypointUpdateFormSetFactory(self.request.POST,
                                                       instance=self.object)
-        #print(form.is_valid(), form_wpt.is_valid())
 
         if form.is_valid() and form_wpt.is_valid():
             return self.form_valid(form, form_wpt)
@@ -309,4 +311,4 @@ class JourneyDelete(DeleteView):
             messages.error(request, _('This car is not yours.'))
             return http.HttpResponseRedirect(reverse_lazy('index'))
         messages.info(_('Journey was deleted.'))
-        return super(JourneyDelete, self).dispatch(request, *args, **kwargs)
+        return super(DeleteJourney, self).dispatch(request, *args, **kwargs)

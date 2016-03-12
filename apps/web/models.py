@@ -20,6 +20,9 @@ class Car(models.Model):
     smoking_allowed = models.BooleanField(default=False)
     air_conditioning = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
