@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class UserSettingsView(TemplateView):
-    template_name = "web/user.html"
+    template_name = "account/user.html"
 
     def get(self, request, *args, **kwargs):
         user = self.request.user
