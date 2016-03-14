@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView, RedirectView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import DeleteView
 from django.views.generic.edit import FormView
 from .. import models
 from .. import forms
+from django import forms as dj_forms
 import googlemaps
-from pprint import pprint
+from django.contrib import messages
 import pudb
+from django import http
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django import forms as dj_forms
+from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your views here.
@@ -23,22 +26,13 @@ class WaypointNotFound(Exception):
 class JourneyList(ListView, FormView):
     model = models.Journey
     form_class = forms.SearchJourney
-    success_url = '/'   # TODO: replace by generic URL of this page
+    success_url = reverse_lazy('journey_list')
     filter = {
         'city_from': None, #models.Waypoint.objects.filter(pk=3).get(),
         'city_to': None #models.Waypoint.objects.filter(pk=2).get(),
     }
 
     GMAPS_CITY_COMPONENT = 'locality'
-
-    def get_initial(self):
-        initial = super(JourneyList, self).get_initial()
-        #filter = {
-        #    'city_from': self.filter['city_from'].city,
-        #    'city_to': self.filter['city_to'].city,
-        #}
-        #initial.update(filter)
-        return initial
 
     def get_context_data(self, **kwargs):
         context = super(JourneyList, self).get_context_data(**kwargs)
@@ -155,7 +149,7 @@ class JourneyDetail(DetailView):
         wpts = obj.journeywaypoints_set
         wpts_count = wpts.count()
         for waypoint in wpts.order_by('order'):
-            for p in waypoint.passangers.all():
+            for p in waypoint.passangers.order_by('-change_timestamp'):
                 pobj = passangers.get(
                     p.id,
                     Passanger(start=waypoint.order, user=p, sum=wpts_count))
@@ -166,9 +160,6 @@ class JourneyDetail(DetailView):
 
         return context
 
-
-class UserDetail(DetailView):
-    model = models.User
 
 # http://kevindias.com/writing/django-class-based-views-multiple-inline-formsets/
 class JourneyCreate(CreateView):
@@ -199,8 +190,10 @@ class JourneyCreate(CreateView):
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+        form.instance.driver = self.request.user
+
         form_wpt = forms.WaypointNewFormSetFactory(self.request.POST)
-        #print(form.is_valid(), form_wpt.is_valid())
+
         if form.is_valid() and form_wpt.is_valid():
             return self.form_valid(form, form_wpt)
         else:
@@ -212,15 +205,12 @@ class JourneyCreate(CreateView):
         associated Ingredients and Instructions and then redirects to a
         success page.
         """
-
-        #pprint(form.cleaned_data)
-        #print(form_wpt.cleaned_data)
         self.object = form.save()
         form_wpt.instance = self.object
         form_wpt.save()
 
         return HttpResponseRedirect(
-            reverse('journey_detail',
+            reverse_lazy('journey_detail',
                     kwargs={'pk': self.object.pk}
             )
         )
@@ -232,7 +222,8 @@ class JourneyCreate(CreateView):
         """
         return self.render_to_response(
             self.get_context_data(form=form,
-                                  form_wpt=form_wpt))
+                                  form_wpt=form_wpt)
+        )
 
 
 class JourneyUpdate(UpdateView):
@@ -276,9 +267,9 @@ class JourneyUpdate(UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
+
         form_wpt = forms.WaypointUpdateFormSetFactory(self.request.POST,
                                                       instance=self.object)
-        #print(form.is_valid(), form_wpt.is_valid())
 
         if form.is_valid() and form_wpt.is_valid():
             return self.form_valid(form, form_wpt)
@@ -291,12 +282,10 @@ class JourneyUpdate(UpdateView):
         associated Ingredients and Instructions and then redirects to a
         success page.
         """
-        #pprint(form.cleaned_data)
-        #pprint(form_wpt.cleaned_data)
         form.save()
         form_wpt.save()
         return HttpResponseRedirect(
-            reverse('journey_detail',
+            reverse_lazy('journey_detail',
                     kwargs={'pk': self.object.pk}
             )
         )
@@ -310,3 +299,16 @@ class JourneyUpdate(UpdateView):
         return self.render_to_response(
             self.get_context_data(form=form,
                                   form_wpt=form_wpt))
+
+
+class JourneyDelete(DeleteView):
+    model = models.Journey
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = models.Car.objects.filter(pk=kwargs['pk']).filter(
+            owner=self.request.user)
+        if not obj:
+            messages.error(request, _('This car is not yours.'))
+            return http.HttpResponseRedirect(reverse_lazy('index'))
+        messages.info(_('Journey was deleted.'))
+        return super(DeleteJourney, self).dispatch(request, *args, **kwargs)

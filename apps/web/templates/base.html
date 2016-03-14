@@ -18,6 +18,7 @@
 
     <link type="text/css" rel="stylesheet" href="{% static 'web/jquery-ui-1.11.4/jquery-ui.css' %}">
     <link href="{% static 'web/css/styles.css'%}" rel="stylesheet">
+    <script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
 
     {% block extrahead %}{% endblock %}
   </head>
@@ -39,9 +40,9 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
             <li><a href="#about">About</a></li>
-            {%if user.is_authenticated%}
+            {% if user.is_authenticated %}
                 <li>
-                    <a href="{%url "user-settings"%}">
+                    <a href="{% url "user-settings" %}">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;
                     {% if request.user.first_name or request.user.last_name %}
                         {{ request.user.first_name }} {{ request.user.last_name }}
@@ -51,20 +52,20 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{%url "account_logout"%}">
+                    <a href="{% url "account_logout" %}">
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;
                         Logout
                     </a>
                 </li>
             {%else%}
                 <li>
-                    <a href="{%url "account_signup"%}">
+                    <a href="{% url "account_signup" %}">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
                         Sign up
                     </a>
                 </li>
                 <li>
-                    <a href="{%url "account_login"%}">
+                    <a href="{% url "account_login" %}">
                         <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
                         Login
                     </a>
@@ -76,6 +77,13 @@
     </nav>
 
     <div class="container" id="main-container">
+	    {% if messages %}
+	    <ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	    </ul>
+	    {% endif %}
         {% block content %}
         {% endblock %}
     </div><!-- /.container -->
@@ -84,7 +92,6 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{% static 'web/js/jquery-2.2.0.min.js' %}"></script>
     <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
   </body>
 </html>

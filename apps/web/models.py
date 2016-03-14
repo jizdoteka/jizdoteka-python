@@ -8,20 +8,35 @@ from django.db.models import signals
 from django.contrib.auth.models import User
 
 
+class Car(models.Model):
+    name = models.CharField(max_length=20, blank=False)
+    owner = models.ForeignKey(User)
+    register = models.CharField(max_length=20, blank=True, default=None)
+    color = models.CharField(max_length=10, blank=False)
+
+    wifi_on_board = models.BooleanField(default=False)
+    animals_allowed = models.BooleanField(default=False)
+    toll_sticker = models.BooleanField(default=False)
+    smoking_allowed = models.BooleanField(default=False)
+    air_conditioning = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
     phone_number = models.CharField(max_length=13, blank=True)
-    reputation = models.IntegerField(blank=True, default=0)
-    mojeid = models.CharField(max_length=100, blank=True)
-    num_journeys = models.IntegerField(blank=True, default=0)
-    driven_km = models.IntegerField(blank=True, default=0)
-    drive_years = models.IntegerField(blank=True, default=0)
+    reputation = models.IntegerField(default=0)
+    num_journeys = models.IntegerField(default=0)
+    driven_km = models.IntegerField(default=0)
+    drive_years = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.user.username
+        return "%s (%s)" % (self.user, self.user.email)
 
 
 def create_user_profile(sender, instance, created, **kwargs):
@@ -99,6 +114,10 @@ class Journey(models.Model):
     )
     driver = models.ForeignKey(
         User,
+        on_delete=models.CASCADE
+    )
+    car = models.ForeignKey(
+        Car,
         on_delete=models.CASCADE
     )
     comments = models.ManyToManyField(Comment, blank=True)
@@ -179,6 +198,7 @@ class Passanger(models.Model):
 
     user = models.ForeignKey(User)
     journey = models.ForeignKey(Journey)
+    change_timestamp = models.DateTimeField(auto_now=True, blank=True, null=True)
     state = models.CharField(
         max_length=6,
         choices=states,

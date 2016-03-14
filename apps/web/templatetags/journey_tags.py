@@ -34,6 +34,7 @@ def pretty_name(queryset):
         queryset.username
     )
 
+
 @register.simple_tag
 def count_free_seats(journey, wpt_from, wpt_to):
     free_seats = []
@@ -54,6 +55,11 @@ def count_free_seats(journey, wpt_from, wpt_to):
 @register.filter
 def num_free_seats(wpt, city_from, city_to):
     return wpt.free_seats(city_from, city_to)
+
+
+@register.filter
+def wpt_passangers_order(wpt):
+    return wpt.passangers.order_by('-change_timestamp')
 
 
 @register.filter

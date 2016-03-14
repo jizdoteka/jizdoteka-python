@@ -1,5 +1,7 @@
 from django import forms
 from . import models
+from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 
 class SearchJourney(forms.Form):
@@ -8,9 +10,21 @@ class SearchJourney(forms.Form):
 
 
 class Journey(forms.ModelForm):
+    #def __init__(self, user, *args, **kwargs):
+    #    super(Journey, self).__init__(*args, **kwargs)
+    #    car = models.Car.objects.filter(owner=user)
+    #    self.fields['car'].queryset = car
+
+    #car = forms.ModelChoiceField(
+    #    queryset=None,
+    #    empty_label=None,
+    #    to_field_name='name',
+    #    label='Car'
+    #)
+
     class Meta:
         model = models.Journey
-        fields = ['seats', 'driver', 'date', 'approx', 'approx_note', 'currency']
+        fields = ['seats', 'car', 'date', 'approx', 'approx_note', 'currency']
 
 
 wpt_base_factory_kwargs = {
@@ -36,3 +50,23 @@ class JourneyFormSet(forms.ModelForm):
         model = models.JourneyWaypoints
         fields = ['journey', 'waypoint', 'label']
         js = ('js/jquery.js',)
+
+
+class CarForm(forms.ModelForm):
+    class Meta():
+        model = models.Car
+        fields = '__all__'
+        exclude = ('owner',)
+
+
+class UserForm(forms.ModelForm):
+    class Meta():
+        model = User
+        fields = ['username', 'first_name', 'last_name']
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta():
+        model = models.UserProfile
+        fields = '__all__'
+        exclude = ('user',)

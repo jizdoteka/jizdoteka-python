@@ -12,8 +12,9 @@
     <h1>{%trans "User settings"%}</h1>
     <form action="" method="post" enctype="multipart/form-data">
         {%csrf_token%}
-        {{ form|bootstrap }}
-        <button class="btn btn-primary" type="submit">{% trans "Edit" %}</button>
+        {{ userform|bootstrap }}
+        {{ userprofileform|bootstrap }}
+        <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
     </form>
 {%endblock%}
 
