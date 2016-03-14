@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from apps.web.views import journey
+from apps.web.views import journey, car
 
 from apps.web.views.user import UserSettingsView
 
@@ -39,5 +39,20 @@ urlpatterns = [
     url(r'^delete/(?P<pk>[0-9]+)$',
         journey.JourneyDelete.as_view(),
         name='journey_delete'
-        ),
+    ),
+    url(r'^car/', car.CarList.as_view(),
+        name='car_list'
+    ),
+    url(r'^car/(?P<pk>[0-9]+)', car.CarDetail.as_view(),
+        name='car_detail'
+    ),
+    url(r'^car/delete/(?P<pk>[0-9]+)', car.CarDelete.as_view(),
+        name='car_delete'
+    ),
+    url(r'^car/new', car.CarNew.as_view(),
+        name='car_new'
+    ),
+    url(r'^car/update/(?P<pk>[0-9]+)', car.CarUpdate.as_view(),
+        name='car_update'
+    ),
 ]
